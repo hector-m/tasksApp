@@ -1,6 +1,10 @@
-import { AppRegistry } from 'react-native';
-import App from './src/navigators/initialNav';
-import {name as appName} from './app.json';
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import SplashScreen from "./src/pages/splashPage";
+import AppNavigator from "./src/navigators/appNav";
 
+const InitialNavigator = createSwitchNavigator({
+  Splash: SplashScreen,
+  App: AppNavigator
+});
 
-AppRegistry.registerComponent(appName, () => App);
+export default createAppContainer(InitialNavigator);
