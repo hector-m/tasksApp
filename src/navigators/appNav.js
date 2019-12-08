@@ -1,9 +1,10 @@
 
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { createAppContainer, createBottomTabNavigator } from "react-navigation";
-import HomePage from "../pages/homePage";
+import { createAppContainer } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation-tabs";
 import { Icon } from 'react-native-elements';
+import HomePage from "../pages/homePage";
 import ProjectNavigator from "./projectNav";
 
 
