@@ -18,12 +18,17 @@ export default class Project extends React.Component {
             reminder: false,
         };
         this.currentlyOpenSwipeable = null;
-
     }
-    render() {
 
+    onpress = () => {
+        tasks = this.props.onProjectPress(this.props.id, this.props.title)
+    }
+
+
+
+    render() {
         return (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.onpress}>
                 <View style={styles.card}>
                 <Icon
                     name={this.props.icon}
@@ -32,15 +37,10 @@ export default class Project extends React.Component {
                     color={this.props.color + "36"}
                     reverseColor={this.props.color}
                     size={35} />
-
                 <Text style={styles.text}>{this.props.title}</Text>
                 <Text style={styles.subtext}>{this.props.tasks.length} Tasks</Text>
-
             </View>
             </TouchableOpacity>
-            
-
-
         )
     }
 }

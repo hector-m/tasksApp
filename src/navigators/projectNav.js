@@ -13,7 +13,7 @@ const ProjectNavigator = createStackNavigator({
     ProjectTasks: {
         screen: tasksInCategoriesPage,
         navigationOptions: () => ({
-            title: "HI"
+            header: null
           }), 
     },
 });

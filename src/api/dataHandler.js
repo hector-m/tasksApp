@@ -3,7 +3,6 @@ import json_data from '../api/sorted_data.json';
 
 export default class DataHandler {
     static loadedReminders() {
-    //   return store.getState().reminders.present;
         return json_data.Tasks; 
     }
 
@@ -11,8 +10,9 @@ export default class DataHandler {
         return json_data.Projects; 
     }
 
-    static loadedRemindersForProject(Project) {
-        return this.loadedReminders.find(x => x.project === Project)
+    static loadedRemindersForProject(projectId, title) {
+        let tasks = json_data.Tasks[0].tasks.find(x => x.project === projectId)
+        return [{"day": title, "tasks": [tasks]}]
     }
 
     // static reminderForId(reminderId) {

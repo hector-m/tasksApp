@@ -8,13 +8,20 @@ import DataHandler from "../api/dataHandler";
 export default class CategoriesPage extends React.Component {
   constructor(props) {
     super(props)
-}
+  }
+
+  onProjectPress = (id, title) => {
+    this.props.navigation.navigate('ProjectTasks', {
+      ProjectTitle: title,
+      Tasks: DataHandler.loadedRemindersForProject(id, title),
+    })
+  }
 
   render() {
     let projects = DataHandler.loadedProjects();
     if (projects.length == 0) {
       return (
-        <View style={{ display: "flex", height:"100%" }}>
+        <View style={{ display: "flex", height: "100%" }}>
           <Header />
           <View style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <Image source={require('../assets/NoteBook_empty.png')} style={{ margin: 70 }} />
@@ -27,7 +34,7 @@ export default class CategoriesPage extends React.Component {
       return (
         <View style={{ backgroundColor: "#F9FCFF" }}>
           <Header />
-          <ProjectsList data={projects} nav={this.props.screenProps} />
+          <ProjectsList data={projects} onProjectPress={this.onProjectPress} dataHandler={DataHandler} />
         </View>
       );
     }

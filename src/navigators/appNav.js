@@ -12,7 +12,7 @@ const AppNavigator = createBottomTabNavigator({
   Home: {
     screen: HomePage,
   },
-  Task: {
+  Projects: {
     screen: ProjectNavigator
   }
 }, {
@@ -22,7 +22,7 @@ const AppNavigator = createBottomTabNavigator({
         let iconName;
         if (routeName === 'Home') {
           iconName = `home`;
-        } else if (routeName === 'Task') {
+        } else if (routeName === 'Projects') {
           iconName = `thumbnails`;
         }
 
