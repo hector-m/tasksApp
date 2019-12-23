@@ -23,7 +23,7 @@ export default class Task extends React.Component {
     }
 
     getProjectColor = () => {
-        projects = { 1: "#FFD506", 2: "#5DE61A", 3: "#D10263" }
+        let projects = { 1: "#FFD506", 2: "#5DE61A", 3: "#D10263" }
         return projects[this.props.project]
     }
 

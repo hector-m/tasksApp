@@ -1,10 +1,19 @@
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import SplashScreen from "./src/pages/splashPage";
-import AppNavigator from "./src/navigators/appNav";
+import React from "react";
+import { View } from "react-native";
+import InitialNavigator from "./src/navigators/initialNav"
+import { HeaderContainer as AddTaskSliderContainer } from "./src/containers/AddTaskSliderContainer"
 
-const InitialNavigator = createSwitchNavigator({
-  Splash: SplashScreen,
-  App: AppNavigator
-});
+class App extends React.Component {
 
-export default createAppContainer(InitialNavigator);
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <InitialNavigator />
+        <AddTaskSliderContainer />
+      </View>
+        
+    );
+  }
+}
+
+export default App

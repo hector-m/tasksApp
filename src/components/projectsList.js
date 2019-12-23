@@ -17,7 +17,7 @@ export default class TasksList extends React.Component {
                 <Text style={[style.headerText, {fontSize: 13}]}>Projects</Text>
                 <FlatList
                     data = {this.data}
-                    renderItem={({ item }) => <Project title={item.Title} icon={item.Icon} color={item.Color} tasks={item.Tasks} id={item.Id} onProjectPress={this.props.onProjectPress}/>}
+                    renderItem={({ item }) => <Project title={item.title} icon={item.icon} color={item.color} tasks={item.tasks} id={item.id} onProjectPress={this.props.onProjectPress}/>}
                     keyExtractor={(_, index) => index.toString()}
                     numColumns = {2}
                     columnWrapperStyle = {{display: "flex", justifyContent: "space-between"}}

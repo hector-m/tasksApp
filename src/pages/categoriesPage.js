@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import style from "../style";
 import ProjectsList from "../components/projectsList";
-import Header from "../components/header";
+import HeaderContainer from "../containers/headerContainer";
 import DataHandler from "../api/dataHandler";
 
 export default class CategoriesPage extends React.Component {
@@ -13,7 +13,7 @@ export default class CategoriesPage extends React.Component {
   onProjectPress = (id, title) => {
     this.props.navigation.navigate('ProjectTasks', {
       ProjectTitle: title,
-      Tasks: DataHandler.loadedRemindersForProject(id, title),
+      TasksInProjectByDay: DataHandler.loadedRemindersForProject(id, title),
     })
   }
 
@@ -22,7 +22,7 @@ export default class CategoriesPage extends React.Component {
     if (projects.length == 0) {
       return (
         <View style={{ display: "flex", height: "100%" }}>
-          <Header />
+          <HeaderContainer />
           <View style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <Image source={require('../assets/NoteBook_empty.png')} style={{ margin: 70 }} />
             <Text style={style.headerText}>No Projects</Text>
@@ -33,7 +33,7 @@ export default class CategoriesPage extends React.Component {
     } else {
       return (
         <View style={{ backgroundColor: "#F9FCFF" }}>
-          <Header />
+          <HeaderContainer />
           <ProjectsList data={projects} onProjectPress={this.onProjectPress} dataHandler={DataHandler} />
         </View>
       );

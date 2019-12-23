@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import style from "../style";
 import TasksList from "../components/tasksList";
-import Header from "../components/header";
+import HeaderContainer from "../containers/headerContainer";
 import DataHandler from "../api/dataHandler";
 
 export default class HomePage extends React.Component {
@@ -12,7 +12,7 @@ export default class HomePage extends React.Component {
     if (tasks.length == 0) {
       return (
         <View style={{ display: "flex", height:"100%" }}>
-          <Header />
+          <HeaderContainer />
           <View style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <Image source={require('../assets/NoteBook_empty.png')} style={{ margin: 70 }} />
             <Text style={style.headerText}>No tasks</Text>
@@ -23,7 +23,7 @@ export default class HomePage extends React.Component {
     } else {
       return (
         <View style={{ backgroundColor: "#F9FCFF" }}>
-          <Header />
+          <HeaderContainer />
           <TasksList data={tasks} />
         </View>
       );

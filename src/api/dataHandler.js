@@ -10,9 +10,20 @@ export default class DataHandler {
         return json_data.Projects; 
     }
 
+    static loadUser() {
+        return json_data.User; 
+    }
+
     static loadedRemindersForProject(projectId, title) {
-        let tasks = json_data.Tasks[0].tasks.find(x => x.project === projectId)
-        return [{"day": title, "tasks": [tasks]}]
+        let tasksByDay = json_data.Tasks
+        let response = {"title": title, "days": []}
+        tasksByDay.forEach( dayObject => {
+            let tasks = dayObject.tasks.find(x => x.project === projectId)
+            if (tasks != undefined) {
+                response.days.push({"day": dayObject.day, "tasks": [tasks]})
+            }
+        })
+        return response
     }
 
     // static reminderForId(reminderId) {

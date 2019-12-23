@@ -1,4 +1,10 @@
 {
+    "User": {
+        "id": 100,
+        "first_name": "Hector",
+        "last_name": "Morales",
+        "icon":"56.png"
+    },
     "Tasks": [
         {
             "day": "Today",
@@ -37,7 +43,7 @@
                     "id": 3
                 },
                 {
-                    "title": "Go To Meeting",
+                    "title": "Go To Next Meeting",
                     "start_time": "13:00",
                     "end_time": "Thu Jun 13 2019 14:00:37 GMT-0400 (Eastern Daylight Time)",
                     "project": 3,
@@ -48,25 +54,25 @@
     ],
     "Projects": [
         {
-            "Id": 1,
-            "Title": "Personal",
-            "Color": "#FFD506",
-            "Icon" : "user",
-            "Tasks": [4]
+            "id": 1,
+            "title": "Personal",
+            "color": "#FFD506",
+            "icon" : "user",
+            "tasks": [4]
         },
         {
-            "Id": 2,
-            "Title": "Work",
-            "Color": "#5DE61A",
-            "Icon" : "briefcase",
-            "Tasks": [1, 3]
+            "id": 2,
+            "title": "Work",
+            "color": "#5DE61A",
+            "icon" : "briefcase",
+            "tasks": [1, 3]
         },
         {
-            "Id": 3,
-            "Title": "Meeting",
-            "Color": "#D10263",
-            "Icon" : "desktop",
-            "Tasks": [2, 7]
+            "id": 3,
+            "title": "Meeting",
+            "color": "#D10263",
+            "icon" : "desktop",
+            "tasks": [2, 7]
         }
     ]
 }
