@@ -8,4 +8,3 @@ const InitialNavigator = createSwitchNavigator({
 });
 
 export default createAppContainer(InitialNavigator);
-
