@@ -15,7 +15,7 @@ const AppNavigator = createBottomTabNavigator(
       showLabel: false,
       navigationOptions: () => ({
         title: "",
-        tabBarIcon: null, //<AddTaskButton />,
+        tabBarIcon: null,
         tabBarOnPress: () => {}
       })
     },

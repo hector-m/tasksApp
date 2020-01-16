@@ -9,8 +9,6 @@ class AddTaskButton extends React.Component {
   constructor(props) {
     super(props);
   }
-
-  mode = new Animated.Value(0);
   buttonSize = new Animated.Value(1);
 
   handlePress = () => {
@@ -21,9 +19,6 @@ class AddTaskButton extends React.Component {
       }),
       Animated.timing(this.buttonSize, {
         toValue: 1
-      }),
-      Animated.timing(this.mode, {
-        toValue: this.mode._value === 0 ? 1 : 0
       })
     ]).start();
     this.toggle();
@@ -43,32 +38,16 @@ class AddTaskButton extends React.Component {
   }
 
   renderButton() {
-    const rotation = this.mode.interpolate({
-      inputRange: [0, 1],
-      outputRange: ["0deg", "45deg"]
-    });
-
     const sizeStyle = {
       transform: [{ scale: this.buttonSize }]
     };
 
     return (
-      <View
-        style={{
-          position: "absolute",
-          left: "50%",
-          marginLeft: -33,
-          top: -33
-        }}
-      >
-        <Animated.View style={[styles.button, sizeStyle]}>
-          <TouchableOpacity onPress={this.handlePress} style={styles.shadow}>
-            <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-              <AntDesign name="pluscircle" size={66} color="#E0139C" />
-            </Animated.View>
-          </TouchableOpacity>
-        </Animated.View>
-      </View>
+      <Animated.View style={[styles.button, sizeStyle]}>
+        <TouchableOpacity onPress={this.handlePress}>
+          <AntDesign name="pluscircle" size={66} color="#E0139C" />
+        </TouchableOpacity>
+      </Animated.View>
     );
   }
 
@@ -102,10 +81,5 @@ const styles = StyleSheet.create({
     height: 66,
     borderRadius: 36,
     backgroundColor: "white"
-  },
-  shadow: {
-    shadowColor: "#F456C3",
-    shadowOffset: { width: 0, height: 7 },
-    shadowOpacity: 0.47
   }
 });
