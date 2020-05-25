@@ -1,8 +1,6 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
+import { StyleSheet, TouchableOpacity, Animated, Text } from "react-native";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actionCreators as actions } from "../redux/actions";
 import { AntDesign } from "@expo/vector-icons";
 
 class AddTaskButton extends React.Component {
@@ -25,15 +23,11 @@ class AddTaskButton extends React.Component {
   };
 
   toggle() {
-    const {
-      isNewTaskPanelOpen,
-      openNewTaskPanel,
-      closeNewTaskPanel
-    } = this.props;
+    const { isNewTaskPanelOpen, closeWindow, openWindow } = this.props;
     if (isNewTaskPanelOpen) {
-      closeNewTaskPanel();
+      closeWindow();
     } else {
-      openNewTaskPanel();
+      openWindow();
     }
   }
 
@@ -43,11 +37,11 @@ class AddTaskButton extends React.Component {
     };
 
     return (
-      <Animated.View style={[styles.button, sizeStyle]}>
-        <TouchableOpacity onPress={this.handlePress}>
+      <TouchableOpacity onPress={this.handlePress} activeOpacity={1}>
+        <Animated.View style={[styles.button, sizeStyle]}>
           <AntDesign name="pluscircle" size={66} color="#E0139C" />
-        </TouchableOpacity>
-      </Animated.View>
+        </Animated.View>
+      </TouchableOpacity>
     );
   }
 
@@ -64,11 +58,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    openNewTaskPanel: bindActionCreators(actions.enterAddTask, dispatch),
-    closeNewTaskPanel: bindActionCreators(actions.exitAddTask, dispatch),
-    createNewTask: bindActionCreators(actions.createNewTask, dispatch)
-  };
+  return {};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTaskButton);

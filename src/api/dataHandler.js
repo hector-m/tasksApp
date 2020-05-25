@@ -28,7 +28,7 @@ export default class DataHandler {
   static getTodaysReminders() {
     let tasksByDay = json_data.Tasks;
     let response = [];
-    for (dayObject of tasksByDay) {
+    for (let dayObject of tasksByDay) {
       if (dayObject.day == "Today") {
         response = dayObject.tasks.filter(x => x.reminder == true);
       }

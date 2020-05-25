@@ -11,6 +11,7 @@ import {
   ScrollView
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import DataHandler from "../api/dataHandler";
 
 class AddTaskContainer extends React.Component {
   constructor(props) {
@@ -22,7 +23,32 @@ class AddTaskContainer extends React.Component {
     };
   }
 
+  getProjectTitles() {
+    const { projects } = this.props;
+    let projectTitles = projects.map(project => (
+      <TouchableOpacity
+        key={project.id}
+        style={{ marginRight: 15, flexDirection: "row" }}
+      >
+        <View
+          style={{
+            height: 10,
+            width: 10,
+            backgroundColor: project.color,
+            borderRadius: 5,
+            marginRight: 5,
+            alignSelf: "center"
+          }}
+        />
+        <Text style={{ fontSize: 15, color: "#8E8E8E" }}>{project.title}</Text>
+      </TouchableOpacity>
+    ));
+    return projectTitles;
+  }
+
   renderProjectSlider() {
+    const projectTitles = this.getProjectTitles();
+
     return (
       <ScrollView
         horizontal
@@ -38,68 +64,24 @@ class AddTaskContainer extends React.Component {
           alignItems: "center"
         }}
       >
-        <View
-          style={{
-            height: 10,
-            width: 50,
-            backgroundColor: "red",
-            marginHorizontal: 10
-          }}
-        />
-        <View
-          style={{
-            height: 10,
-            width: "20%",
-            backgroundColor: "red",
-            marginHorizontal: 10
-          }}
-        />
-        <View
-          style={{
-            height: 10,
-            width: "20%",
-            backgroundColor: "red",
-            marginHorizontal: 10
-          }}
-        />
-        <View
-          style={{
-            height: 10,
-            width: "20%",
-            backgroundColor: "red",
-            marginHorizontal: 10
-          }}
-        />
-        <View
-          style={{
-            height: 10,
-            width: "20%",
-            backgroundColor: "red",
-            marginHorizontal: 10
-          }}
-        />
-        <View
-          style={{
-            height: 10,
-            width: "20%",
-            backgroundColor: "red",
-            marginHorizontal: 10
-          }}
-        />
-        <View
-          style={{
-            height: 10,
-            width: "20%",
-            backgroundColor: "red",
-            marginHorizontal: 10
-          }}
-        />
+        {projectTitles}
       </ScrollView>
     );
   }
 
   renderDatePicker() {
-    return <View></View>;
+    return (
+      <TouchableOpacity activeOpacity={1}>
+        <Text
+          style={{
+            fontSize: 14,
+            fontWeight: "normal"
+          }}
+        >
+          Choose Date
+        </Text>
+      </TouchableOpacity>
+    );
   }
 
   renderButton() {
@@ -138,11 +120,12 @@ class AddTaskContainer extends React.Component {
     return (
       <View
         style={{
-          paddingTop: 25,
+          paddingTop: 50,
           paddingHorizontal: 21,
           display: "flex",
           flexDirection: "column",
-          alignContent: "center"
+          alignContent: "center",
+          backgroundColor: "yellow"
         }}
       >
         <Text
@@ -178,7 +161,8 @@ const styles = StyleSheet.create({});
 function mapStateToProps(state) {
   // Redux Store --> Component
   return {
-    isNewTaskPanelOpen: state.isNewTaskPanelOpen
+    isNewTaskPanelOpen: state.isNewTaskPanelOpen,
+    projects: DataHandler.loadedProjects()
   };
 }
 

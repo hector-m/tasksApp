@@ -1,33 +1,29 @@
-import { ENTER_ADD_TASK, EXIT_ADD_TASK, CREATE_NEW_TASK } from "./types";
+import {
+  ENTER_ADD_TASK,
+  EXIT_ADD_TASK,
+  CREATE_NEW_TASK,
+  SWIPED_ALL_REMINDERS
+} from "./types";
 
 const initialState = {
-  isNewTaskPanelOpen: false
+  isNewTaskPanelOpen: true,
+  hasOpenReminders: true
 };
-
-function openNewTaskPanel(state) {
-  return {
-    ...state,
-    isNewTaskPanelOpen: true
-  };
-}
-
-function closeNewTaskPanel(state) {
-  return {
-    ...state,
-    isNewTaskPanelOpen: false
-  };
-}
 
 function reducer(state = initialState, action) {
   switch (action.type) {
     case ENTER_ADD_TASK:
-      console.log("open");
-      return openNewTaskPanel(state);
+      console.log("ENTER_ADD_TASK");
+      return { ...state, isNewTaskPanelOpen: true };
     case EXIT_ADD_TASK:
-      console.log("close");
-      return closeNewTaskPanel(state);
+      console.log("EXIT_ADD_TASK");
+      return { ...state, isNewTaskPanelOpen: false };
     case CREATE_NEW_TASK:
-      return closeNewTaskPanel(state);
+      console.log("CREATE_NEW_TASK");
+      return { ...state, isNewTaskPanelOpen: false };
+    case SWIPED_ALL_REMINDERS:
+      console.log("SWIPED_ALL_REMINDERS");
+      return { ...state, hasOpenReminders: false };
     default:
       return state;
   }

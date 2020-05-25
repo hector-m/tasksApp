@@ -1,13 +1,15 @@
 import React from "react";
 import { View } from "react-native";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./src/redux/reducers";
 import InitialNavigator from "./src/navigators/initialNav";
 import AddTaskSliderContainer from "./src/containers/AddTaskSliderContainer";
 import HeaderContainer from "./src/containers/headerContainer";
 
-const store = createStore(reducer);
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+
+const store = createStore(reducer, composeWithDevTools(applyMiddleware()));
 
 class App extends React.Component {
   render() {

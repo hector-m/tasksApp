@@ -2,18 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators as actions } from "../redux/actions";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Animated,
-  Dimensions,
-  TouchableOpacity
-} from "react-native";
-const { width, height } = Dimensions.get("window");
+import { StyleSheet, View, Animated, Dimensions } from "react-native";
+import { PanGestureHandler, State } from "react-native-gesture-handler";
 import AddTaskButton from "../components/addTaskButton";
 import AddTaskContainer from "./AddTaskContainer";
 
+const { width, height } = Dimensions.get("window");
 const TAB_BAR_HEIGHT = 83;
 const OPEN_HEIGHT = height - TAB_BAR_HEIGHT - 105;
 
@@ -22,29 +16,24 @@ class AddTaskSliderContainer extends React.Component {
     super(props);
     this.state = {};
   }
-  animation = new Animated.Value(1); //0 put one to start open
 
-  openWindow = () =>
+  animation = new Animated.Value(this.props.isNewTaskPanelOpen); //0 put one to start open
+
+  openWindow = () => {
+    this.props.openNewTaskPanel();
     Animated.timing(this.animation, {
       duration: 300,
       toValue: 1
     }).start();
+  };
 
-  closeWindow = () =>
+  closeWindow = () => {
+    this.props.closeNewTaskPanel();
     Animated.timing(this.animation, {
       duration: 300,
       toValue: 0
     }).start();
-
-  toggle() {
-    if (this.props.isNewTaskPanelOpen) {
-      this.closeWindow();
-      this.props.closeNewTaskPanel();
-    } else {
-      this.openWindow();
-      this.props.openNewTaskPanel();
-    }
-  }
+  };
 
   renderAddButton() {
     const { animation } = this;
@@ -55,7 +44,10 @@ class AddTaskSliderContainer extends React.Component {
     return (
       <View style={styles.button}>
         <Animated.View style={{ transform: [{ rotate: rotateButton }] }}>
-          <AddTaskButton />
+          <AddTaskButton
+            openWindow={this.openWindow}
+            closeWindow={this.closeWindow}
+          />
         </Animated.View>
       </View>
     );
@@ -73,17 +65,13 @@ class AddTaskSliderContainer extends React.Component {
           height: translateY,
           width: width,
           alignSelf: "center",
-          backgroundColor: "white",
+          backgroundColor: "red",
           position: "absolute",
           bottom: TAB_BAR_HEIGHT,
           borderTopLeftRadius: 50,
           borderTopRightRadius: 50
         }}
       >
-        <TouchableOpacity
-          onPress={() => this.toggle()}
-          style={{ height: 20, width: 20, backgroundColor: "red" }}
-        ></TouchableOpacity>
         {this.renderAddButton()}
         <AddTaskContainer />
       </Animated.View>

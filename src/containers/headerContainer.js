@@ -1,11 +1,14 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators as actions } from "../redux/actions";
 import { View } from "react-native";
 import DataHandler from "../api/dataHandler";
 import Header from "../components/header";
 import RemindersHeader from "../components/remindersHeader";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default class HeaderContainer extends React.Component {
+class HeaderContainer extends React.Component {
   getBackgroundBubbles() {
     return (
       <View
@@ -41,6 +44,13 @@ export default class HeaderContainer extends React.Component {
     );
   }
 
+  getRemindersHeader(todaysReminders) {
+    if (this.props.hasOpenReminders) {
+      return <RemindersHeader todaysReminders={todaysReminders} />;
+    }
+    return null;
+  }
+
   render() {
     let user = this.getUserData();
     let todaysReminders = this.getTodaysReminders();
@@ -58,7 +68,7 @@ export default class HeaderContainer extends React.Component {
         >
           {this.getBackgroundBubbles()}
           <Header user={user} todaysReminderCount={todaysReminders.length} />
-          <RemindersHeader todaysReminders={todaysReminders} />
+          {this.getRemindersHeader(todaysReminders)}
         </LinearGradient>
       </View>
     );
@@ -80,3 +90,18 @@ export default class HeaderContainer extends React.Component {
     return DataHandler.getTodaysReminders();
   }
 }
+
+function mapStateToProps(state) {
+  // Redux Store --> Component
+  return {
+    hasOpenReminders: state.hasOpenReminders
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    openNewTaskPanel: bindActionCreators(actions.enterAddTask, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
