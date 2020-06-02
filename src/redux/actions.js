@@ -2,7 +2,8 @@ import {
   ENTER_ADD_TASK,
   EXIT_ADD_TASK,
   CREATE_NEW_TASK,
-  SWIPED_ALL_REMINDERS
+  SWIPED_ALL_REMINDERS,
+  PROJECT_TYPE_CLICKED
 } from "./types";
 
 function enterAddTask() {
@@ -29,11 +30,18 @@ function swipedAllReminders() {
   };
 }
 
+function projectTypeClicked(projectId) {
+  return {
+    type: PROJECT_TYPE_CLICKED
+  };
+}
+
 const actionCreators = {
   enterAddTask,
   exitAddTask,
   createNewTask,
-  swipedAllReminders
+  swipedAllReminders,
+  projectTypeClicked
 };
 
 export { actionCreators };

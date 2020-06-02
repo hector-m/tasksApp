@@ -8,7 +8,8 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  ScrollView
+  ScrollView,
+  DateTimePicker
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import DataHandler from "../api/dataHandler";
@@ -24,11 +25,17 @@ class AddTaskContainer extends React.Component {
   }
 
   getProjectTitles() {
-    const { projects } = this.props;
+    const { projects, selectProjectType, projectIdSelected } = this.props;
     let projectTitles = projects.map(project => (
       <TouchableOpacity
         key={project.id}
-        style={{ marginRight: 15, flexDirection: "row" }}
+        onPress={() => selectProjectType(project.id)}
+        style={[
+          styles.project,
+          projectIdSelected == project.id
+            ? { backgroundColor: project.color }
+            : null
+        ]}
       >
         <View
           style={{
@@ -40,7 +47,14 @@ class AddTaskContainer extends React.Component {
             alignSelf: "center"
           }}
         />
-        <Text style={{ fontSize: 15, color: "#8E8E8E" }}>{project.title}</Text>
+        <Text
+          style={{
+            fontSize: 15,
+            color: projectIdSelected == project.id ? "white" : "#8E8E8E"
+          }}
+        >
+          {project.title}
+        </Text>
       </TouchableOpacity>
     ));
     return projectTitles;
@@ -117,17 +131,13 @@ class AddTaskContainer extends React.Component {
   }
 
   render() {
+    const { isNewTaskPanelOpen } = this.props;
+    if (!isNewTaskPanelOpen) {
+      return null;
+    }
+
     return (
-      <View
-        style={{
-          paddingTop: 50,
-          paddingHorizontal: 21,
-          display: "flex",
-          flexDirection: "column",
-          alignContent: "center",
-          backgroundColor: "yellow"
-        }}
-      >
+      <View style={styles.container}>
         <Text
           style={{
             textAlign: "center",
@@ -142,7 +152,8 @@ class AddTaskContainer extends React.Component {
           style={{
             height: 32,
             marginTop: 13,
-            fontSize: 32
+            fontSize: 20,
+            color: "#373737"
           }}
           autoFocus
           onChangeText={text => this.setState({ text })}
@@ -151,18 +162,38 @@ class AddTaskContainer extends React.Component {
         {this.renderProjectSlider()}
         {this.renderDatePicker()}
         {this.renderButton()}
+        {/* <DateTimePicker value={new Date()} /> */}
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 50,
+    paddingHorizontal: 21,
+    display: "flex",
+    flexDirection: "column",
+    alignContent: "center"
+  },
+  project: {
+    marginRight: 15,
+    flexDirection: "row",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5
+  },
+  selected: {
+    backgroundColor: "red"
+  }
+});
 
 function mapStateToProps(state) {
   // Redux Store --> Component
   return {
     isNewTaskPanelOpen: state.isNewTaskPanelOpen,
-    projects: DataHandler.loadedProjects()
+    projects: DataHandler.loadedProjects(),
+    projectIdSelected: state.newProject.project
   };
 }
 
@@ -170,7 +201,8 @@ function mapDispatchToProps(dispatch) {
   return {
     openNewTaskPanel: bindActionCreators(actions.enterAddTask, dispatch),
     closeNewTaskPanel: bindActionCreators(actions.exitAddTask, dispatch),
-    createNewTask: bindActionCreators(actions.createNewTask, dispatch)
+    createNewTask: bindActionCreators(actions.createNewTask, dispatch),
+    selectProjectType: bindActionCreators(actions.projectTypeClicked, dispatch)
   };
 }
 

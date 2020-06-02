@@ -65,7 +65,7 @@ class AddTaskSliderContainer extends React.Component {
           height: translateY,
           width: width,
           alignSelf: "center",
-          backgroundColor: "red",
+          backgroundColor: "white",
           position: "absolute",
           bottom: TAB_BAR_HEIGHT,
           borderTopLeftRadius: 50,

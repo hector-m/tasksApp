@@ -9,6 +9,7 @@
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19001'"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "2.2.2",
     "expo": "^37.0.0",
     "expo-linear-gradient": "~8.1.0",
     "react": "16.9.0",
