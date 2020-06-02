@@ -1,37 +1,27 @@
-import {
-  ENTER_ADD_TASK,
-  EXIT_ADD_TASK,
-  CREATE_NEW_TASK,
-  SWIPED_ALL_REMINDERS,
-  PROJECT_TYPE_CLICKED
-} from "./types";
+import { types } from "./actions";
 
 const initialState = {
   isNewTaskPanelOpen: true,
   hasOpenReminders: true,
-  newProject: {
-    title: "",
-    project: 1,
-    data: null
-  }
+  newProjectTitle: "",
+  newProjectType: 1,
+  newProjectDate: null
 };
 
-function reducer(state = initialState, action) {
-  console.log(action.type);
+export default function reducer(state = initialState, action) {
+  console.log(action.type, "Payload: ", action.payload);
   switch (action.type) {
-    case ENTER_ADD_TASK:
+    case types.ENTER_ADD_TASK:
       return { ...state, isNewTaskPanelOpen: true };
-    case EXIT_ADD_TASK:
+    case types.EXIT_ADD_TASK:
       return { ...state, isNewTaskPanelOpen: false };
-    case CREATE_NEW_TASK:
+    case types.CREATE_NEW_TASK:
       return { ...state, isNewTaskPanelOpen: false };
-    case SWIPED_ALL_REMINDERS:
+    case types.SWIPED_ALL_REMINDERS:
       return { ...state, hasOpenReminders: false };
-    case PROJECT_TYPE_CLICKED:
-      return { ...state };
+    case types.PROJECT_TYPE_CLICKED:
+      return { ...state, newProjectType: action.payload };
     default:
       return state;
   }
 }
-
-export default reducer;

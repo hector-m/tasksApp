@@ -1,47 +1,33 @@
-import {
-  ENTER_ADD_TASK,
-  EXIT_ADD_TASK,
-  CREATE_NEW_TASK,
-  SWIPED_ALL_REMINDERS,
-  PROJECT_TYPE_CLICKED
-} from "./types";
-
-function enterAddTask() {
-  return {
-    type: ENTER_ADD_TASK
-  };
-}
-
-function exitAddTask() {
-  return {
-    type: EXIT_ADD_TASK
-  };
-}
-
-function createNewTask() {
-  return {
-    type: CREATE_NEW_TASK
-  };
-}
-
-function swipedAllReminders() {
-  return {
-    type: SWIPED_ALL_REMINDERS
-  };
-}
-
-function projectTypeClicked(projectId) {
-  return {
-    type: PROJECT_TYPE_CLICKED
-  };
-}
-
-const actionCreators = {
-  enterAddTask,
-  exitAddTask,
-  createNewTask,
-  swipedAllReminders,
-  projectTypeClicked
+export const types = {
+  ENTER_ADD_TASK: "ENTER_ADD_TASK",
+  EXIT_ADD_TASK: "EXIT_ADD_TASK",
+  CREATE_NEW_TASK: "CREATE_NEW_TASK",
+  SWIPED_ALL_REMINDERS: "SWIPED_ALL_REMINDERS",
+  PROJECT_TYPE_CLICKED: "PROJECT_TYPE_CLICKED"
 };
 
-export { actionCreators };
+const requestActions = type => ({
+  request: () => ({
+    type,
+    payload: RequestStates.REQUESTING
+  }),
+  success: data => ({
+    type,
+    payload: RequestStates.SUCCEEDED,
+    data
+  }),
+  failure: error => ({
+    type,
+    payload: isExpiredTokenResponseText(error)
+      ? RequestStates.FAILED_EXPIRED
+      : RequestStates.FAILED
+  })
+});
+
+const updateAction = type => payload => ({ type, payload });
+
+export const enterAddTask = updateAction(types.ENTER_ADD_TASK);
+export const exitAddTask = updateAction(types.EXIT_ADD_TASK);
+export const createNewTask = updateAction(types.CREATE_NEW_TASK);
+export const swipedAllReminders = updateAction(types.SWIPED_ALL_REMINDERS);
+export const projectTypeClicked = updateAction(types.PROJECT_TYPE_CLICKED);

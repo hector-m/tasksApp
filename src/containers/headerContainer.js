@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actionCreators as actions } from "../redux/actions";
 import { View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { enterAddTask } from "../redux/actions";
+import { getHasOpenReminders } from "../redux/selectors";
 import DataHandler from "../api/dataHandler";
 import Header from "../components/header";
 import RemindersHeader from "../components/remindersHeader";
-import { LinearGradient } from "expo-linear-gradient";
 
 class HeaderContainer extends React.Component {
   getBackgroundBubbles() {
@@ -91,17 +91,12 @@ class HeaderContainer extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  // Redux Store --> Component
-  return {
-    hasOpenReminders: state.hasOpenReminders
-  };
-}
+const mapStateToProps = state => ({
+  hasOpenReminders: getHasOpenReminders(state)
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    openNewTaskPanel: bindActionCreators(actions.enterAddTask, dispatch)
-  };
-}
+const reduxConnect = connect(mapStateToProps, {
+  openNewTaskPanel: enterAddTask
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer);
+export default reduxConnect(HeaderContainer);

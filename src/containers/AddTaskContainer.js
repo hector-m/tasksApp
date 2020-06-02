@@ -1,7 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actionCreators as actions } from "../redux/actions";
 import {
   StyleSheet,
   Text,
@@ -12,6 +10,16 @@ import {
   DateTimePicker
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import {
+  enterAddTask,
+  exitAddTask,
+  createNewTask,
+  projectTypeClicked
+} from "../redux/actions";
+import {
+  getIsNewTaskPanelOpen,
+  getProjectIdSelected
+} from "../redux/selectors";
 import DataHandler from "../api/dataHandler";
 
 class AddTaskContainer extends React.Component {
@@ -29,7 +37,9 @@ class AddTaskContainer extends React.Component {
     let projectTitles = projects.map(project => (
       <TouchableOpacity
         key={project.id}
-        onPress={() => selectProjectType(project.id)}
+        onPress={() => {
+          selectProjectType(project.id);
+        }}
         style={[
           styles.project,
           projectIdSelected == project.id
@@ -188,22 +198,17 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps(state) {
-  // Redux Store --> Component
-  return {
-    isNewTaskPanelOpen: state.isNewTaskPanelOpen,
-    projects: DataHandler.loadedProjects(),
-    projectIdSelected: state.newProject.project
-  };
-}
+const mapStateToProps = state => ({
+  isNewTaskPanelOpen: getIsNewTaskPanelOpen(state),
+  projects: DataHandler.loadedProjects(),
+  projectIdSelected: getProjectIdSelected(state)
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    openNewTaskPanel: bindActionCreators(actions.enterAddTask, dispatch),
-    closeNewTaskPanel: bindActionCreators(actions.exitAddTask, dispatch),
-    createNewTask: bindActionCreators(actions.createNewTask, dispatch),
-    selectProjectType: bindActionCreators(actions.projectTypeClicked, dispatch)
-  };
-}
+const reduxConnect = connect(mapStateToProps, {
+  openNewTaskPanel: enterAddTask,
+  closeNewTaskPanel: exitAddTask,
+  createNewTask: createNewTask,
+  selectProjectType: projectTypeClicked
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddTaskContainer);
+export default reduxConnect(AddTaskContainer);

@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actionCreators as actions } from "../redux/actions";
 import { View, Text, Image, StyleSheet, Button } from "react-native";
+import { swipedAllReminders } from "../redux/actions";
 import RemindersCard from "./remindersCard";
 import Swiper from "react-native-deck-swiper";
 
@@ -49,18 +48,13 @@ class RemindersHeader extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  // Redux Store --> Component
-  return {};
-}
+const mapStateToProps = state => ({});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    swipedAllReminders: bindActionCreators(actions.swipedAllReminders, dispatch)
-  };
-}
+const reduxConnect = connect(mapStateToProps, {
+  swipedAllReminders
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemindersHeader);
+export default reduxConnect(RemindersHeader);
 
 const styles = StyleSheet.create({
   container: {

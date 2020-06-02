@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actionCreators as actions } from "../redux/actions";
 import { StyleSheet, View, Animated, Dimensions } from "react-native";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
+import { enterAddTask, exitAddTask, createNewTask } from "../redux/actions";
+import { getIsNewTaskPanelOpen } from "../redux/selectors";
 import AddTaskButton from "../components/addTaskButton";
 import AddTaskContainer from "./AddTaskContainer";
 
@@ -91,22 +91,14 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps(state) {
-  // Redux Store --> Component
-  return {
-    isNewTaskPanelOpen: state.isNewTaskPanelOpen
-  };
-}
+const mapStateToProps = state => ({
+  isNewTaskPanelOpen: getIsNewTaskPanelOpen(state)
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    openNewTaskPanel: bindActionCreators(actions.enterAddTask, dispatch),
-    closeNewTaskPanel: bindActionCreators(actions.exitAddTask, dispatch),
-    createNewTask: bindActionCreators(actions.createNewTask, dispatch)
-  };
-}
+const reduxConnect = connect(mapStateToProps, {
+  openNewTaskPanel: enterAddTask,
+  closeNewTaskPanel: exitAddTask,
+  createNewTask: createNewTask
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddTaskSliderContainer);
+export default reduxConnect(AddTaskSliderContainer);

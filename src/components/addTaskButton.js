@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Animated, Text } from "react-native";
 import { connect } from "react-redux";
+import { StyleSheet, TouchableOpacity, Animated, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { getIsNewTaskPanelOpen } from "../redux/selectors";
 
 class AddTaskButton extends React.Component {
   constructor(props) {
@@ -50,18 +51,13 @@ class AddTaskButton extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  // Redux Store --> Component
-  return {
-    isNewTaskPanelOpen: state.isNewTaskPanelOpen
-  };
-}
+const mapStateToProps = state => ({
+  isNewTaskPanelOpen: getIsNewTaskPanelOpen(state)
+});
 
-function mapDispatchToProps(dispatch) {
-  return {};
-}
+const reduxConnect = connect(mapStateToProps, {});
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddTaskButton);
+export default reduxConnect(AddTaskButton);
 
 const styles = StyleSheet.create({
   button: {
