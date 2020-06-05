@@ -5,6 +5,7 @@ const initialState = {
   hasOpenReminders: true,
   newProjectTitle: "",
   newProjectType: 1,
+  isPickingProjectDate: false,
   newProjectDate: null
 };
 
@@ -21,6 +22,15 @@ export default function reducer(state = initialState, action) {
       return { ...state, hasOpenReminders: false };
     case types.PROJECT_TYPE_CLICKED:
       return { ...state, newProjectType: action.payload };
+    case types.PROJECT_DATE_CLICKED:
+      let date = state.newProjectDate ? state.newProjectDate : new Date();
+      return {
+        ...state,
+        isPickingProjectDate: !state.isPickingProjectDate,
+        newProjectDate: date
+      };
+    case types.PROJECT_DATE_CHANGED:
+      return { ...state, newProjectDate: action.payload };
     default:
       return state;
   }

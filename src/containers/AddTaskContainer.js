@@ -6,19 +6,24 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  ScrollView,
-  DateTimePicker
+  ScrollView
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import moment from "moment";
 import {
   enterAddTask,
   exitAddTask,
   createNewTask,
-  projectTypeClicked
+  onProjectTypeClicked,
+  onProjectDateClicked,
+  onProjectDateChanged
 } from "../redux/actions";
 import {
   getIsNewTaskPanelOpen,
-  getProjectIdSelected
+  getProjectIdSelected,
+  getIsPickingProjectDate,
+  getNewProjectDate
 } from "../redux/selectors";
 import DataHandler from "../api/dataHandler";
 
@@ -27,8 +32,7 @@ class AddTaskContainer extends React.Component {
     super(props);
     this.state = {
       title: "",
-      project: null,
-      date: null
+      project: null
     };
   }
 
@@ -94,17 +98,49 @@ class AddTaskContainer extends React.Component {
   }
 
   renderDatePicker() {
+    const {
+      onProjectDateClicked,
+      onProjectDateChanged,
+      isPickingProjectDate,
+      newProjectDate
+    } = this.props;
     return (
-      <TouchableOpacity activeOpacity={1}>
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: "normal"
+      <View>
+        <TouchableOpacity
+          // activeOpacity={1}
+          onPress={() => {
+            onProjectDateClicked();
           }}
         >
-          Choose Date
-        </Text>
-      </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: 13,
+              fontWeight: "normal"
+            }}
+          >
+            Choose Date,
+          </Text>
+          {newProjectDate && (
+            <Text
+              style={{
+                fontSize: 13,
+                fontWeight: "600",
+                marginTop: 20,
+                color: "#554E8F"
+              }}
+            >
+              {moment(newProjectDate).format("LLL")}
+            </Text>
+          )}
+        </TouchableOpacity>
+        {isPickingProjectDate && (
+          <DateTimePicker
+            mode={"datetime"}
+            value={newProjectDate}
+            onChange={(event, date) => onProjectDateChanged(date)}
+          />
+        )}
+      </View>
     );
   }
 
@@ -116,7 +152,8 @@ class AddTaskContainer extends React.Component {
           shadowColor: "#6894EE",
           shadowOffset: { width: 0, height: 3 },
           shadowOpacity: 1,
-          overflow: "visible"
+          overflow: "visible",
+          marginVertical: 50
         }}
       >
         <LinearGradient
@@ -172,7 +209,6 @@ class AddTaskContainer extends React.Component {
         {this.renderProjectSlider()}
         {this.renderDatePicker()}
         {this.renderButton()}
-        {/* <DateTimePicker value={new Date()} /> */}
       </View>
     );
   }
@@ -201,14 +237,18 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   isNewTaskPanelOpen: getIsNewTaskPanelOpen(state),
   projects: DataHandler.loadedProjects(),
-  projectIdSelected: getProjectIdSelected(state)
+  projectIdSelected: getProjectIdSelected(state),
+  isPickingProjectDate: getIsPickingProjectDate(state),
+  newProjectDate: getNewProjectDate(state)
 });
 
 const reduxConnect = connect(mapStateToProps, {
   openNewTaskPanel: enterAddTask,
   closeNewTaskPanel: exitAddTask,
   createNewTask: createNewTask,
-  selectProjectType: projectTypeClicked
+  selectProjectType: onProjectTypeClicked,
+  onProjectDateClicked,
+  onProjectDateChanged
 });
 
 export default reduxConnect(AddTaskContainer);
