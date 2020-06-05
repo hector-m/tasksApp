@@ -20,6 +20,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, isNewTaskPanelOpen: false };
     case types.SWIPED_ALL_REMINDERS:
       return { ...state, hasOpenReminders: false };
+    case types.PROJECT_TITLE_CHANGED:
+      return { ...state, newProjectTitle: action.payload };
     case types.PROJECT_TYPE_CLICKED:
       return { ...state, newProjectType: action.payload };
     case types.PROJECT_DATE_CLICKED:

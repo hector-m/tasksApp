@@ -3,6 +3,7 @@ export const types = {
   EXIT_ADD_TASK: "EXIT_ADD_TASK",
   CREATE_NEW_TASK: "CREATE_NEW_TASK",
   SWIPED_ALL_REMINDERS: "SWIPED_ALL_REMINDERS",
+  PROJECT_TITLE_CHANGED: "PROJECT_TITLE_CHANGED",
   PROJECT_TYPE_CLICKED: "PROJECT_TYPE_CLICKED",
   PROJECT_DATE_CLICKED: "PROJECT_DATE_CLICKED",
   PROJECT_DATE_CHANGED: "PROJECT_DATE_CHANGED"
@@ -35,3 +36,4 @@ export const swipedAllReminders = updateAction(types.SWIPED_ALL_REMINDERS);
 export const onProjectTypeClicked = updateAction(types.PROJECT_TYPE_CLICKED);
 export const onProjectDateClicked = updateAction(types.PROJECT_DATE_CLICKED);
 export const onProjectDateChanged = updateAction(types.PROJECT_DATE_CHANGED);
+export const onProjectTitleChanged = updateAction(types.PROJECT_TITLE_CHANGED);

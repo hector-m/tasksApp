@@ -5,6 +5,7 @@ const getHasOpenRemindersState = state => state.hasOpenReminders;
 const getProjectIdSelectedState = state => state.newProjectType;
 const getIsPickingProjectDateState = state => state.isPickingProjectDate;
 const getNewProjectDateState = state => state.newProjectDate;
+const getNewProjectTitleState = state => state.newProjectTitle;
 
 export const getIsNewTaskPanelOpen = createSelector(
   [getIsNewTaskPanelOpenState],
@@ -17,6 +18,13 @@ export const getHasOpenReminders = createSelector(
   [getHasOpenRemindersState],
   hasOpenReminders => {
     return hasOpenReminders;
+  }
+);
+
+export const getNewProjectTitle = createSelector(
+  [getNewProjectTitleState],
+  newProjectTitleState => {
+    return newProjectTitleState;
   }
 );
 

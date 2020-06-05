@@ -15,12 +15,14 @@ import {
   enterAddTask,
   exitAddTask,
   createNewTask,
+  onProjectTitleChanged,
   onProjectTypeClicked,
   onProjectDateClicked,
   onProjectDateChanged
 } from "../redux/actions";
 import {
   getIsNewTaskPanelOpen,
+  getNewProjectTitle,
   getProjectIdSelected,
   getIsPickingProjectDate,
   getNewProjectDate
@@ -30,10 +32,6 @@ import DataHandler from "../api/dataHandler";
 class AddTaskContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      title: "",
-      project: null
-    };
   }
 
   getProjectTitles() {
@@ -178,7 +176,11 @@ class AddTaskContainer extends React.Component {
   }
 
   render() {
-    const { isNewTaskPanelOpen } = this.props;
+    const {
+      isNewTaskPanelOpen,
+      onProjectTitleChanged,
+      newProjectTitle
+    } = this.props;
     if (!isNewTaskPanelOpen) {
       return null;
     }
@@ -203,8 +205,8 @@ class AddTaskContainer extends React.Component {
             color: "#373737"
           }}
           autoFocus
-          onChangeText={text => this.setState({ text })}
-          value={this.state.text}
+          onChangeText={text => onProjectTitleChanged(text)}
+          value={newProjectTitle}
         />
         {this.renderProjectSlider()}
         {this.renderDatePicker()}
@@ -239,13 +241,15 @@ const mapStateToProps = state => ({
   projects: DataHandler.loadedProjects(),
   projectIdSelected: getProjectIdSelected(state),
   isPickingProjectDate: getIsPickingProjectDate(state),
-  newProjectDate: getNewProjectDate(state)
+  newProjectDate: getNewProjectDate(state),
+  newProjectTitle: getNewProjectTitle(state)
 });
 
 const reduxConnect = connect(mapStateToProps, {
   openNewTaskPanel: enterAddTask,
   closeNewTaskPanel: exitAddTask,
   createNewTask: createNewTask,
+  onProjectTitleChanged,
   selectProjectType: onProjectTypeClicked,
   onProjectDateClicked,
   onProjectDateChanged
