@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { FontAwesome5 } from "@expo/vector-icons";
 import moment from "moment";
 import {
   enterAddTask,
@@ -105,32 +106,50 @@ class AddTaskContainer extends React.Component {
     return (
       <View>
         <TouchableOpacity
-          // activeOpacity={1}
+          activeOpacity={1}
           onPress={() => {
-            onProjectDateClicked();
+            newProjectDate ? null : onProjectDateClicked();
           }}
+          style={{ flexDirection: "row" }}
         >
           <Text
             style={{
-              fontSize: 13,
-              fontWeight: "normal"
+              fontSize: 14,
+              fontWeight: "normal",
+              marginRight: 50
             }}
           >
-            Choose Date,
+            Choose Date
           </Text>
-          {newProjectDate && (
+          {!newProjectDate && <FontAwesome5 name="chevron-down" size={15} />}
+        </TouchableOpacity>
+        {newProjectDate && (
+          <TouchableOpacity
+            onPress={() => {
+              onProjectDateClicked();
+            }}
+            style={{
+              marginTop: 20,
+              flexDirection: "row"
+            }}
+          >
             <Text
               style={{
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: "600",
-                marginTop: 20,
-                color: "#554E8F"
+                color: "#554E8F",
+                marginRight: 10
               }}
             >
               {moment(newProjectDate).format("LLL")}
             </Text>
-          )}
-        </TouchableOpacity>
+            <FontAwesome5
+              name={isPickingProjectDate ? "chevron-up" : "chevron-down"}
+              size={15}
+              color={"#554E8F"}
+            />
+          </TouchableOpacity>
+        )}
         {isPickingProjectDate && (
           <DateTimePicker
             mode={"datetime"}
