@@ -13,6 +13,7 @@
     "expo": "^37.0.0",
     "expo-linear-gradient": "~8.1.0",
     "immutable": "^4.0.0-rc.12",
+    "keymirror": "^0.1.1",
     "moment": "^2.26.0",
     "react": "16.9.0",
     "react-dom": "16.9.0",

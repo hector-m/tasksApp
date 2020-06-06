@@ -1,7 +1,15 @@
 import { types } from "./actions";
+import {
+  RequestStates,
+  requestSucceeded,
+  requestFailed
+} from "../constants/RequestStates";
 
 const initialState = {
-  isNewTaskPanelOpen: true,
+  allTasks: [],
+  allProjects: [],
+  projectTasks: [],
+  isNewTaskPanelOpen: false,
   hasOpenReminders: true,
   newProjectTitle: "",
   newProjectType: 1,
@@ -33,6 +41,12 @@ export default function reducer(state = initialState, action) {
       };
     case types.PROJECT_DATE_CHANGED:
       return { ...state, newProjectDate: action.payload };
+    case types.REQUEST_ALL_TASKS:
+      return { ...state, allTasks: action.data };
+    case types.REQUEST_ALL_PROJECTS:
+      return { ...state, allProjects: action.data };
+    case types.REQUEST_PROJECT_TASKS:
+      return { ...state, projectTasks: action.data };
     default:
       return state;
   }

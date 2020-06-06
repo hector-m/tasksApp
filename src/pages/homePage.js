@@ -1,13 +1,20 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
+import { connect } from "react-redux";
 import style from "../style";
+import { requestAllTasks } from "../redux/actions";
+import { getAllTasks } from "../redux/selectors";
 import TasksList from "../components/tasksList";
-import DataHandler from "../api/dataHandler";
 
-export default class HomePage extends React.Component {
+class HomePage extends React.Component {
+  componentDidMount() {
+    const { requestAllTasks } = this.props;
+    requestAllTasks();
+  }
+
   render() {
-    let tasks = DataHandler.loadedReminders();
-    if (tasks.length == 0) {
+    const { allTasks } = this.props;
+    if (allTasks.length == 0) {
       return (
         <View style={{ display: "flex", height: "100%", overflow: "visible" }}>
           <View
@@ -31,9 +38,19 @@ export default class HomePage extends React.Component {
     } else {
       return (
         <View style={{ backgroundColor: "#F9FCFF" }}>
-          <TasksList data={tasks} />
+          <TasksList data={allTasks} />
         </View>
       );
     }
   }
 }
+
+const mapStateToProps = state => ({
+  allTasks: getAllTasks(state)
+});
+
+const reduxConnect = connect(mapStateToProps, {
+  requestAllTasks
+});
+
+export default reduxConnect(HomePage);

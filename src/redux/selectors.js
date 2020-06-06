@@ -1,50 +1,11 @@
 import { createSelector } from "reselect";
 
-const getIsNewTaskPanelOpenState = state => state.isNewTaskPanelOpen;
-const getHasOpenRemindersState = state => state.hasOpenReminders;
-const getProjectIdSelectedState = state => state.newProjectType;
-const getIsPickingProjectDateState = state => state.isPickingProjectDate;
-const getNewProjectDateState = state => state.newProjectDate;
-const getNewProjectTitleState = state => state.newProjectTitle;
-
-export const getIsNewTaskPanelOpen = createSelector(
-  [getIsNewTaskPanelOpenState],
-  isNewTaskPanelOpen => {
-    return isNewTaskPanelOpen;
-  }
-);
-
-export const getHasOpenReminders = createSelector(
-  [getHasOpenRemindersState],
-  hasOpenReminders => {
-    return hasOpenReminders;
-  }
-);
-
-export const getNewProjectTitle = createSelector(
-  [getNewProjectTitleState],
-  newProjectTitleState => {
-    return newProjectTitleState;
-  }
-);
-
-export const getProjectIdSelected = createSelector(
-  [getProjectIdSelectedState],
-  projectIdSelected => {
-    return projectIdSelected;
-  }
-);
-
-export const getIsPickingProjectDate = createSelector(
-  [getIsPickingProjectDateState],
-  isPickingProjectDateState => {
-    return isPickingProjectDateState;
-  }
-);
-
-export const getNewProjectDate = createSelector(
-  [getNewProjectDateState],
-  newProjectDateState => {
-    return newProjectDateState;
-  }
-);
+export const getIsNewTaskPanelOpen = state => state.isNewTaskPanelOpen;
+export const getHasOpenReminders = state => state.hasOpenReminders;
+export const getProjectIdSelected = state => state.newProjectType;
+export const getIsPickingProjectDate = state => state.isPickingProjectDate;
+export const getNewProjectDate = state => state.newProjectDate;
+export const getNewProjectTitle = state => state.newProjectTitle;
+export const getAllTasks = state => state.allTasks;
+export const getAllProjects = state => state.allProjects;
+export const getProjectTasks = state => state.projectTasks;

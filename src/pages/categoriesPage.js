@@ -1,24 +1,33 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
+import { connect } from "react-redux";
 import style from "../style";
+import { requestAllProjects, requestProjectTasks } from "../redux/actions";
+import { getAllProjects } from "../redux/selectors";
 import ProjectsList from "../components/projectsList";
 import DataHandler from "../api/dataHandler";
 
-export default class CategoriesPage extends React.Component {
+class CategoriesPage extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    const { requestAllProjects } = this.props;
+    requestAllProjects();
+  }
+
   onProjectPress = (id, title) => {
-    this.props.navigation.navigate("ProjectTasks", {
-      ProjectTitle: title,
-      TasksInProjectByDay: DataHandler.loadedRemindersForProject(id, title)
+    const { navigation, requestProjectTasks } = this.props;
+    requestProjectTasks(id, title);
+    navigation.navigate("ProjectTasks", {
+      ProjectTitle: title
     });
   };
 
   render() {
-    let projects = DataHandler.loadedProjects();
-    if (projects.length == 0) {
+    const { allProjects } = this.props;
+    if (allProjects.length == 0) {
       return (
         <View style={{ display: "flex", height: "100%" }}>
           <View
@@ -43,7 +52,7 @@ export default class CategoriesPage extends React.Component {
       return (
         <View style={{ backgroundColor: "#F9FCFF" }}>
           <ProjectsList
-            data={projects}
+            data={allProjects}
             onProjectPress={this.onProjectPress}
             dataHandler={DataHandler}
           />
@@ -52,3 +61,14 @@ export default class CategoriesPage extends React.Component {
     }
   }
 }
+
+const mapStateToProps = state => ({
+  allProjects: getAllProjects(state)
+});
+
+const reduxConnect = connect(mapStateToProps, {
+  requestAllProjects,
+  requestProjectTasks
+});
+
+export default reduxConnect(CategoriesPage);

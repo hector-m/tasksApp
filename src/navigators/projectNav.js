@@ -1,6 +1,6 @@
 import { createStackNavigator } from "react-navigation-stack";
 import CategoriesPage from "../pages/categoriesPage";
-import tasksInCategoriesPage from "../pages/tasksInCategoriesPage";
+import ProjectTasksPage from "../pages/projectTasksPage";
 
 const ProjectNavigator = createStackNavigator({
   Projects: {
@@ -10,7 +10,7 @@ const ProjectNavigator = createStackNavigator({
     })
   },
   ProjectTasks: {
-    screen: tasksInCategoriesPage,
+    screen: ProjectTasksPage,
     navigationOptions: () => ({
       header: null
     })

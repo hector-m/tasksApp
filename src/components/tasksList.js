@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, SectionList, StyleSheet } from "react-native";
 import style from "../style";
-import Task from "./task.js";
+import Task from "./task";
 
 export default class TasksList extends React.Component {
   constructor(props) {
