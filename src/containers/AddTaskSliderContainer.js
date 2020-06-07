@@ -17,26 +17,28 @@ class AddTaskSliderContainer extends React.Component {
     this.state = {};
   }
 
-  animation = new Animated.Value(this.props.isNewTaskPanelOpen); //0 put one to start open
+  // animation = new Animated.Value(this.props.isNewTaskPanelOpen); //0 put one to start open
 
   openWindow = () => {
+    const { animation } = this.props;
     this.props.openNewTaskPanel();
-    Animated.timing(this.animation, {
+    Animated.timing(animation, {
       duration: 300,
       toValue: 1
     }).start();
   };
 
   closeWindow = () => {
+    const { animation } = this.props;
     this.props.closeNewTaskPanel();
-    Animated.timing(this.animation, {
+    Animated.timing(animation, {
       duration: 300,
       toValue: 0
     }).start();
   };
 
   renderAddButton() {
-    const { animation } = this;
+    const { animation } = this.props;
     const rotateButton = animation.interpolate({
       inputRange: [0, 1],
       outputRange: ["0deg", "45deg"]
@@ -54,7 +56,7 @@ class AddTaskSliderContainer extends React.Component {
   }
 
   render() {
-    const { animation } = this;
+    const { animation } = this.props;
     const translateY = animation.interpolate({
       inputRange: [0, 1],
       outputRange: [0, OPEN_HEIGHT]
@@ -92,7 +94,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  isNewTaskPanelOpen: getIsNewTaskPanelOpen(state)
+  animation: new Animated.Value(getIsNewTaskPanelOpen(state))
 });
 
 const reduxConnect = connect(mapStateToProps, {

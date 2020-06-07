@@ -26,7 +26,8 @@ import {
   getNewProjectTitle,
   getProjectIdSelected,
   getIsPickingProjectDate,
-  getNewProjectDate
+  getNewProjectDate,
+  getNewProjectIsReminder
 } from "../redux/selectors";
 import DataHandler from "../api/dataHandler";
 
@@ -162,6 +163,13 @@ class AddTaskContainer extends React.Component {
   }
 
   renderButton() {
+    const {
+      createNewTask,
+      projectIdSelected,
+      newProjectDate,
+      newProjectTitle,
+      isNewProjectReminder
+    } = this.props;
     return (
       <TouchableOpacity
         activeOpacity={0.7}
@@ -172,6 +180,15 @@ class AddTaskContainer extends React.Component {
           overflow: "visible",
           marginVertical: 50
         }}
+        onPress={() =>
+          createNewTask(
+            newProjectTitle,
+            newProjectDate,
+            null,
+            projectIdSelected,
+            isNewProjectReminder
+          )
+        }
       >
         <LinearGradient
           colors={["#7EB6FF", "#5F87E7"]}
@@ -261,7 +278,8 @@ const mapStateToProps = state => ({
   projectIdSelected: getProjectIdSelected(state),
   isPickingProjectDate: getIsPickingProjectDate(state),
   newProjectDate: getNewProjectDate(state),
-  newProjectTitle: getNewProjectTitle(state)
+  newProjectTitle: getNewProjectTitle(state),
+  isNewProjectReminder: getNewProjectIsReminder(state)
 });
 
 const reduxConnect = connect(mapStateToProps, {

@@ -1,17 +1,14 @@
 import React from "react";
 import { View, Text, SectionList, StyleSheet } from "react-native";
+import { connect } from "react-redux";
+import { deleteTask } from "../redux/actions";
+import {} from "../redux/selectors";
 import style from "../style";
 import Task from "./task";
 
-export default class TasksList extends React.Component {
+class TasksList extends React.Component {
   constructor(props) {
     super(props);
-    this.data = Object.keys(this.props.data).map(key => {
-      return {
-        data: this.props.data[key].tasks,
-        day: this.props.data[key].day
-      };
-    });
   }
 
   renderProjectTitle() {
@@ -23,6 +20,7 @@ export default class TasksList extends React.Component {
   }
 
   render() {
+    const { deleteTask, data } = this.props;
     return (
       <View
         style={{
@@ -43,6 +41,7 @@ export default class TasksList extends React.Component {
               end={item.end_time}
               project={item.project}
               reminder={item.reminder}
+              onDeleteTask={deleteTask}
             />
           )}
           renderSectionHeader={({ section }) => (
@@ -50,7 +49,7 @@ export default class TasksList extends React.Component {
               {section.day}
             </Text>
           )}
-          sections={this.data}
+          sections={data}
           keyExtractor={(_, index) => index.toString()}
         />
       </View>
@@ -66,3 +65,11 @@ const styles = StyleSheet.create({
     color: "#554E8F"
   }
 });
+
+const mapStateToProps = state => ({});
+
+const reduxConnect = connect(mapStateToProps, {
+  deleteTask
+});
+
+export default reduxConnect(TasksList);

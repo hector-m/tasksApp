@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
-// import Swipeable from "react-native-swipeable";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import moment from "moment";
 
 export default class Task extends React.Component {
   state = {
@@ -27,25 +27,17 @@ export default class Task extends React.Component {
 
   handleCompleted = () => {
     const { selected } = this.state;
-    if (selected) {
-      this.setState({ selected: false });
-    } else {
-      this.setState({ selected: true });
-    }
+    this.setState({ selected: !selected });
   };
 
   handleReminder = () => {
     const { reminder } = this.state;
-    if (reminder) {
-      this.setState({ reminder: false });
-    } else {
-      this.setState({ reminder: true });
-    }
+    this.setState({ reminder: !reminder });
   };
 
   handleDelete = () => {
-    console.warn(this.props.id);
-    this.currentlyOpenSwipeable.close();
+    const { onDeleteTask } = this.props;
+    onDeleteTask(this.props.id);
   };
 
   renderDeleteButton = () => {
@@ -101,7 +93,7 @@ export default class Task extends React.Component {
             ]}
           />
           <Text style={{ color: "#C6C6C8", marginRight: 14 }}>
-            {this.props.start}
+            {moment(this.props.start).format("h:mm")}
           </Text>
           <Text
             style={this.state.selected ? styles.text_selected : styles.text}

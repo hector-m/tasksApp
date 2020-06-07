@@ -9,3 +9,4 @@ export const getNewProjectTitle = state => state.newProjectTitle;
 export const getAllTasks = state => state.allTasks;
 export const getAllProjects = state => state.allProjects;
 export const getProjectTasks = state => state.projectTasks;
+export const getNewProjectIsReminder = state => state.isProjectReminder;

@@ -14,7 +14,8 @@ const initialState = {
   newProjectTitle: "",
   newProjectType: 1,
   isPickingProjectDate: false,
-  newProjectDate: null
+  newProjectDate: null,
+  isProjectReminder: false
 };
 
 export default function reducer(state = initialState, action) {

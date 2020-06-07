@@ -1,8 +1,9 @@
 import json_data from "../api/sorted_data.json";
+import { getAllTasks, addTask, deleteTask } from "./tasksDao";
 
 export default class DataHandler {
-  static loadedReminders() {
-    return json_data.Tasks;
+  static loadedReminders(dispatchSuccess) {
+    getAllTasks(dispatchSuccess);
   }
 
   static loadedProjects() {
@@ -34,6 +35,14 @@ export default class DataHandler {
       }
     }
     return response;
+  }
+
+  static addTaskToList(title, start_time, end_date, project, reminder) {
+    addTask(title, start_time, end_date, project, reminder);
+  }
+
+  static deleteTaskFromList(id) {
+    deleteTask(id);
   }
 
   // static reminderForId(reminderId) {
