@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { enterAddTask } from "../redux/actions";
-import { getHasOpenReminders } from "../redux/selectors";
+import { getHasOpenReminders, getTodaysReminders } from "../redux/selectors";
 import DataHandler from "../api/dataHandler";
 import Header from "../components/header";
 import RemindersHeader from "../components/remindersHeader";
@@ -52,8 +52,8 @@ class HeaderContainer extends React.Component {
   }
 
   render() {
+    const { todaysReminders } = this.props;
     let user = this.getUserData();
-    let todaysReminders = this.getTodaysReminders();
     return (
       <View style={{ width: "100%" }}>
         <LinearGradient
@@ -77,22 +77,11 @@ class HeaderContainer extends React.Component {
   getUserData() {
     return DataHandler.loadUser();
   }
-
-  getTodaysTasks() {
-    let firstReminderDay = DataHandler.loadedReminders()[0];
-    if (firstReminderDay.day == "Today") {
-      return firstReminderDay.tasks;
-    }
-    return [];
-  }
-
-  getTodaysReminders() {
-    return DataHandler.getTodaysReminders();
-  }
 }
 
 const mapStateToProps = state => ({
-  hasOpenReminders: getHasOpenReminders(state)
+  hasOpenReminders: getHasOpenReminders(state),
+  todaysReminders: getTodaysReminders(state)
 });
 
 const reduxConnect = connect(mapStateToProps, {

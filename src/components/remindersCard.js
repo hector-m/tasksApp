@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
+import moment from "moment";
 
 export default class RemindersCard extends React.Component {
   constructor(props) {
@@ -41,7 +42,9 @@ export default class RemindersCard extends React.Component {
           <Text style={{ fontSize: 24, color: "white" }}>
             {this.getTitle()}
           </Text>
-          <Text style={{ fontSize: 17, color: "white" }}>{startTime}</Text>
+          <Text style={{ fontSize: 17, color: "white" }}>
+            {moment(startTime).format("h:mm")}
+          </Text>
         </View>
 
         <Image

@@ -10,7 +10,8 @@ const initialState = {
   allProjects: [],
   projectTasks: [],
   isNewTaskPanelOpen: false,
-  hasOpenReminders: true,
+  hasOpenReminders: false,
+  todaysReminders: [],
   newProjectTitle: "",
   newProjectType: 1,
   isPickingProjectDate: false,
@@ -43,7 +44,25 @@ export default function reducer(state = initialState, action) {
     case types.PROJECT_DATE_CHANGED:
       return { ...state, newProjectDate: action.payload };
     case types.REQUEST_ALL_TASKS:
-      return { ...state, allTasks: action.data };
+      let allTasks = action.data;
+      if (allTasks.length == 0 || allTasks[0].day != "Today") {
+        return {
+          ...state,
+          allTasks: action.data,
+          hasOpenReminders: false,
+          todaysReminders: []
+        };
+      }
+      let reminders = [];
+      allTasks[0].data.forEach(task => {
+        task.reminder && !task.complete ? reminders.push(task) : null;
+      });
+      return {
+        ...state,
+        allTasks: action.data,
+        hasOpenReminders: reminders.length != 0,
+        todaysReminders: reminders
+      };
     case types.REQUEST_ALL_PROJECTS:
       return { ...state, allProjects: action.data };
     case types.REQUEST_PROJECT_TASKS:
