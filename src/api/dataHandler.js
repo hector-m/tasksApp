@@ -1,5 +1,11 @@
 import json_data from "../api/sorted_data.json";
-import { getAllTasks, addTask, deleteTask } from "./tasksDao";
+import {
+  getAllTasks,
+  addTask,
+  deleteTask,
+  setReminderForTask,
+  setCompleteForTask
+} from "./tasksDao";
 
 export default class DataHandler {
   static loadedReminders(dispatchSuccess) {
@@ -43,6 +49,14 @@ export default class DataHandler {
 
   static deleteTaskFromList(id) {
     deleteTask(id);
+  }
+
+  static setReminderOptionForTask(id, isReminder) {
+    setReminderForTask(id, isReminder);
+  }
+
+  static setCompleteOptionForTask(id, isReminder) {
+    setCompleteForTask(id, isReminder);
   }
 
   // static reminderForId(reminderId) {

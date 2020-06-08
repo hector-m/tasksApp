@@ -5,18 +5,8 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import moment from "moment";
 
 export default class Task extends React.Component {
-  state = {
-    selected: Boolean,
-    reminder: Boolean,
-    toggleText: String
-  };
-
   constructor(props) {
     super(props);
-    this.state = {
-      selected: false,
-      reminder: this.props.reminder
-    };
     this.currentlyOpenSwipeable = null;
   }
 
@@ -26,18 +16,18 @@ export default class Task extends React.Component {
   };
 
   handleCompleted = () => {
-    const { selected } = this.state;
-    this.setState({ selected: !selected });
+    const { onTaskCompleted, complete, id } = this.props;
+    onTaskCompleted(id, !complete);
   };
 
   handleReminder = () => {
-    const { reminder } = this.state;
-    this.setState({ reminder: !reminder });
+    const { onReminderPressed, reminder, id } = this.props;
+    onReminderPressed(id, !reminder);
   };
 
   handleDelete = () => {
-    const { onDeleteTask } = this.props;
-    onDeleteTask(this.props.id);
+    const { onDeleteTask, id } = this.props;
+    onDeleteTask(id);
   };
 
   renderDeleteButton = () => {
@@ -88,7 +78,7 @@ export default class Task extends React.Component {
           <TouchableOpacity
             onPress={this.handleCompleted}
             style={[
-              this.state.selected ? styles.selected : styles.empty,
+              this.props.complete ? styles.selected : styles.empty,
               { marginHorizontal: 10 }
             ]}
           />
@@ -96,14 +86,14 @@ export default class Task extends React.Component {
             {moment(this.props.start).format("h:mm")}
           </Text>
           <Text
-            style={this.state.selected ? styles.text_selected : styles.text}
+            style={this.props.complete ? styles.text_selected : styles.text}
           >
             {this.props.title}
           </Text>
           <Icon
             name="bell"
             type="font-awesome"
-            color={this.state.reminder ? "#FFDC00" : "#D9D9D9"}
+            color={this.props.reminder ? "#FFDC00" : "#D9D9D9"}
             iconStyle={{ marginHorizontal: 10 }}
             size={18}
             onPress={this.handleReminder}

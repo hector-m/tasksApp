@@ -5,7 +5,7 @@ const database = SQLite.openDatabase("TasksApp.db");
 
 database.transaction(tx => {
   tx.executeSql(
-    "create table if not exists tasks (id integer primary key not null, title text not null, start_time int, end_date int, project int, reminder int);"
+    "create table if not exists tasks (id integer primary key not null, title text not null, start_time int, end_date int, project int, reminder int, complete int);"
   );
 });
 
@@ -13,13 +13,14 @@ export const addTask = (title, start_time, end_date, project, reminder) => {
   database.transaction(
     tx => {
       tx.executeSql(
-        `insert into tasks (title, start_time, end_date, project, reminder) values (?,?,?,?,?)`,
+        `insert into tasks (title, start_time, end_date, project, reminder, complete) values (?,?,?,?,?,?)`,
         [
           title,
-          start_time.valueOf(),
+          start_time ? start_time.valueOf() : null,
           end_date ? end_date.valueOf() : null,
           project,
-          reminder
+          reminder,
+          0
         ],
         null,
         null
@@ -85,3 +86,37 @@ export const getAllTasks = dispatchSuccess => {
     null
   );
 };
+
+export function setReminderForTask(id, isReminder) {
+  database.transaction(
+    tx => {
+      tx.executeSql(
+        `UPDATE tasks SET reminder = ? WHERE id = ?;`,
+        [isReminder, id],
+        null,
+        null
+      );
+    },
+    error => {
+      console.log("error", error);
+    },
+    console.log("reminder Set")
+  );
+}
+
+export function setCompleteForTask(id, isComplete) {
+  database.transaction(
+    tx => {
+      tx.executeSql(
+        `UPDATE tasks SET complete = ? WHERE id = ?;`,
+        [isComplete, id],
+        null,
+        null
+      );
+    },
+    error => {
+      console.log("error", error);
+    },
+    console.log("complete Set")
+  );
+}

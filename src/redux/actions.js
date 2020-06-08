@@ -14,7 +14,9 @@ export const types = keyMirror({
   REQUEST_ALL_TASKS: null,
   REQUEST_PROJECT_TASKS: null,
   REQUEST_ALL_PROJECTS: null,
-  DELETE_TASK: null
+  DELETE_TASK: null,
+  SET_REMINDER_OPTION: null,
+  SET_COMPLETED_OPTION: null
 });
 
 const requestActions = type => ({
@@ -45,10 +47,13 @@ export const onProjectDateClicked = updateAction(types.PROJECT_DATE_CLICKED);
 export const onProjectDateChanged = updateAction(types.PROJECT_DATE_CHANGED);
 export const onProjectTitleChanged = updateAction(types.PROJECT_TITLE_CHANGED);
 
-const GetAllTasks = requestActions(types.REQUEST_ALL_TASKS);
-export const requestAllTasks = () => dispatch => {
+function updateTasks(dispatch) {
   let dispatchSuccess = data => dispatch(GetAllTasks.success(data));
   DataHandler.loadedReminders(dispatchSuccess);
+}
+const GetAllTasks = requestActions(types.REQUEST_ALL_TASKS);
+export const requestAllTasks = () => dispatch => {
+  updateTasks(dispatch);
 };
 
 const GetProjectTasks = requestActions(types.REQUEST_PROJECT_TASKS);
@@ -72,10 +77,7 @@ export const createNewTask = (
 ) => dispatch => {
   dispatch(CreateNewTask.request());
   DataHandler.addTaskToList(title, start_time, end_date, project, reminder);
-
-  let dispatchSuccess = data => dispatch(GetAllTasks.success(data));
-  DataHandler.loadedReminders(dispatchSuccess);
-
+  updateTasks(dispatch);
   dispatch(exitAddTask());
   dispatch(CreateNewTask.success());
 };
@@ -84,9 +86,22 @@ const DeleteTask = requestActions(types.DELETE_TASK);
 export const deleteTask = id => dispatch => {
   dispatch(DeleteTask.request());
   DataHandler.deleteTaskFromList(id);
-
-  let dispatchSuccess = data => dispatch(GetAllTasks.success(data));
-  DataHandler.loadedReminders(dispatchSuccess);
-
+  updateTasks(dispatch);
   dispatch(DeleteTask.success());
+};
+
+const SetReminderOptionForTask = requestActions(types.SET_REMINDER_OPTION);
+export const setReminderOptionForTask = (id, isReminder) => dispatch => {
+  dispatch(SetReminderOptionForTask.request());
+  DataHandler.setReminderOptionForTask(id, isReminder);
+  updateTasks(dispatch);
+  dispatch(SetReminderOptionForTask.success());
+};
+
+const SetCompletedOptionForTask = requestActions(types.SET_COMPLETED_OPTION);
+export const setCompletedOptionForTask = (id, isComplete) => dispatch => {
+  dispatch(SetCompletedOptionForTask.request());
+  DataHandler.setCompleteOptionForTask(id, isComplete);
+  updateTasks(dispatch);
+  dispatch(SetCompletedOptionForTask.success());
 };

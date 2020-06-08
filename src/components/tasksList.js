@@ -1,7 +1,11 @@
 import React from "react";
 import { View, Text, SectionList, StyleSheet } from "react-native";
 import { connect } from "react-redux";
-import { deleteTask } from "../redux/actions";
+import {
+  deleteTask,
+  setReminderOptionForTask,
+  setCompletedOptionForTask
+} from "../redux/actions";
 import {} from "../redux/selectors";
 import style from "../style";
 import Task from "./task";
@@ -20,7 +24,12 @@ class TasksList extends React.Component {
   }
 
   render() {
-    const { deleteTask, data } = this.props;
+    const {
+      deleteTask,
+      data,
+      setReminderOptionForTask,
+      setCompletedOptionForTask
+    } = this.props;
     return (
       <View
         style={{
@@ -41,7 +50,10 @@ class TasksList extends React.Component {
               end={item.end_time}
               project={item.project}
               reminder={item.reminder}
+              complete={item.complete}
               onDeleteTask={deleteTask}
+              onReminderPressed={setReminderOptionForTask}
+              onTaskCompleted={setCompletedOptionForTask}
             />
           )}
           renderSectionHeader={({ section }) => (
@@ -69,7 +81,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({});
 
 const reduxConnect = connect(mapStateToProps, {
-  deleteTask
+  deleteTask,
+  setReminderOptionForTask,
+  setCompletedOptionForTask
 });
 
 export default reduxConnect(TasksList);
