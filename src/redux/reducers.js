@@ -27,7 +27,15 @@ export default function reducer(state = initialState, action) {
     case types.EXIT_ADD_TASK:
       return { ...state, isNewTaskPanelOpen: false };
     case types.CREATE_NEW_TASK:
-      return { ...state, isNewTaskPanelOpen: false };
+      return {
+        ...state,
+        isNewTaskPanelOpen: false,
+        newProjectTitle: "",
+        newProjectType: 1,
+        isPickingProjectDate: false,
+        newProjectDate: null,
+        isProjectReminder: false
+      };
     case types.SWIPED_ALL_REMINDERS:
       return { ...state, hasOpenReminders: false };
     case types.PROJECT_TITLE_CHANGED:
