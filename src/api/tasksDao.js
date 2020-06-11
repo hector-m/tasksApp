@@ -87,6 +87,26 @@ export const getAllTasks = dispatchSuccess => {
   );
 };
 
+export const getTasksInProject = (projectId, title, dispatchSuccess) => {
+  database.transaction(
+    tx => {
+      tx.executeSql(
+        `select * from tasks WHERE project = ? ORDER BY start_time`,
+        [projectId],
+        (_, { rows: { _array } }) => {
+          let formated = { title: title, days: formatTasks(_array) };
+          dispatchSuccess(formated);
+        },
+        null
+      );
+    },
+    error => {
+      console.log("error", error);
+    },
+    null
+  );
+};
+
 export function setReminderForTask(id, isReminder) {
   database.transaction(
     tx => {
@@ -100,7 +120,7 @@ export function setReminderForTask(id, isReminder) {
     error => {
       console.log("error", error);
     },
-    console.log("reminder Set")
+    null
   );
 }
 
@@ -117,6 +137,6 @@ export function setCompleteForTask(id, isComplete) {
     error => {
       console.log("error", error);
     },
-    console.log("complete Set")
+    null
   );
 }

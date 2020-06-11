@@ -4,32 +4,26 @@ import {
   addTask,
   deleteTask,
   setReminderForTask,
-  setCompleteForTask
+  setCompleteForTask,
+  getTasksInProject
 } from "./tasksDao";
+import { getAllProjects } from "./projectsDao";
 
 export default class DataHandler {
   static loadedReminders(dispatchSuccess) {
     getAllTasks(dispatchSuccess);
   }
 
-  static loadedProjects() {
-    return json_data.Projects;
+  static loadedProjects(dispatchSuccess) {
+    getAllProjects(dispatchSuccess);
   }
 
   static loadUser() {
     return json_data.User;
   }
 
-  static loadedRemindersForProject(projectId, title) {
-    let tasksByDay = json_data.Tasks;
-    let response = { title: title, days: [] };
-    tasksByDay.forEach(dayObject => {
-      let tasks = dayObject.tasks.find(x => x.project === projectId);
-      if (tasks != undefined) {
-        response.days.push({ day: dayObject.day, tasks: [tasks] });
-      }
-    });
-    return response;
+  static loadedRemindersForProject(projectId, title, dispatchSuccess) {
+    getTasksInProject(projectId, title, dispatchSuccess);
   }
 
   static getTodaysReminders() {

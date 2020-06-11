@@ -57,14 +57,15 @@ export const requestAllTasks = () => dispatch => {
 };
 
 const GetProjectTasks = requestActions(types.REQUEST_PROJECT_TASKS);
-export const requestProjectTasks = (id, title) => {
-  let projectTasks = DataHandler.loadedRemindersForProject(id, title);
-  return GetProjectTasks.success(projectTasks);
+export const requestProjectTasks = (id, title) => dispatch => {
+  let dispatchSuccess = data => dispatch(GetProjectTasks.success(data));
+  DataHandler.loadedRemindersForProject(id, title, dispatchSuccess);
 };
 
 const GetAllProjects = requestActions(types.REQUEST_ALL_PROJECTS);
-export const requestAllProjects = () => {
-  return GetAllProjects.success(DataHandler.loadedProjects());
+export const requestAllProjects = () => dispatch => {
+  let dispatchSuccess = data => dispatch(GetAllProjects.success(data));
+  DataHandler.loadedProjects(dispatchSuccess);
 };
 
 const CreateNewTask = requestActions(types.CREATE_NEW_TASK);

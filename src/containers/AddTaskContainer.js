@@ -27,9 +27,9 @@ import {
   getProjectIdSelected,
   getIsPickingProjectDate,
   getNewProjectDate,
-  getNewProjectIsReminder
+  getNewProjectIsReminder,
+  getAllProjects
 } from "../redux/selectors";
-import DataHandler from "../api/dataHandler";
 
 class AddTaskContainer extends React.Component {
   constructor(props) {
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   isNewTaskPanelOpen: getIsNewTaskPanelOpen(state),
-  projects: DataHandler.loadedProjects(),
+  projects: getAllProjects(state),
   projectIdSelected: getProjectIdSelected(state),
   isPickingProjectDate: getIsPickingProjectDate(state),
   newProjectDate: getNewProjectDate(state),

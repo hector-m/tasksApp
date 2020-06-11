@@ -3,21 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 
 export default class Project extends React.Component {
-  state = {
-    selected: Boolean,
-    reminder: Boolean,
-    toggleText: String
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: false,
-      reminder: false
-    };
-    this.currentlyOpenSwipeable = null;
-  }
-
   onpress = () => {
     tasks = this.props.onProjectPress(this.props.id, this.props.title);
   };
@@ -35,7 +20,7 @@ export default class Project extends React.Component {
             size={35}
           />
           <Text style={styles.text}>{this.props.title}</Text>
-          <Text style={styles.subtext}>{this.props.tasks.length} Tasks</Text>
+          {/* <Text style={styles.subtext}>{this.props.tasks.length} Tasks</Text> */}
         </View>
       </TouchableOpacity>
     );
