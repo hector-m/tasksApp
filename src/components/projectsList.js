@@ -7,15 +7,15 @@ import Project from "./project";
 export default class TasksList extends React.Component {
   constructor(props) {
     super(props);
-    this.data = this.props.data;
   }
 
   render() {
+    const { data, onProjectPress } = this.props;
     return (
       <View style={{ padding: 18, width: "100%", height: "100%" }}>
         <Text style={[style.headerText, { fontSize: 13 }]}>Projects</Text>
         <FlatList
-          data={this.data}
+          data={data}
           renderItem={({ item }) => (
             <Project
               title={item.title}
@@ -23,7 +23,7 @@ export default class TasksList extends React.Component {
               color={item.color}
               tasks={item.tasks}
               id={item.id}
-              onProjectPress={this.props.onProjectPress}
+              onProjectPress={onProjectPress}
             />
           )}
           keyExtractor={(_, index) => index.toString()}

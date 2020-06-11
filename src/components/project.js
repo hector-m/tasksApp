@@ -8,19 +8,20 @@ export default class Project extends React.Component {
   };
 
   render() {
+    const { title, tasks, color, icon } = this.props;
     return (
       <TouchableOpacity onPress={this.onpress}>
         <View style={styles.card}>
           <Icon
-            name={this.props.icon}
+            name={icon}
             reverse
             type="font-awesome"
-            color={this.props.color + "36"}
-            reverseColor={this.props.color}
+            color={color + "36"}
+            reverseColor={color}
             size={35}
           />
-          <Text style={styles.text}>{this.props.title}</Text>
-          {/* <Text style={styles.subtext}>{this.props.tasks.length} Tasks</Text> */}
+          <Text style={styles.text}>{title}</Text>
+          {/* <Text style={styles.subtext}>{tasks.length} Tasks</Text> */}
         </View>
       </TouchableOpacity>
     );
