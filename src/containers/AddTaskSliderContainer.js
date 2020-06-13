@@ -2,7 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { StyleSheet, View, Animated, Dimensions } from "react-native";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
-import { enterAddTask, exitAddTask, createNewTask } from "../redux/actions";
+import {
+  enterAddTask,
+  exitAddTask,
+  createNewTask,
+  requestAllProjects
+} from "../redux/actions";
 import { getIsNewTaskPanelOpen } from "../redux/selectors";
 import AddTaskButton from "../components/addTaskButton";
 import AddTaskContainer from "./AddTaskContainer";
@@ -21,6 +26,7 @@ class AddTaskSliderContainer extends React.Component {
 
   openWindow = () => {
     const { animation } = this.props;
+    this.props.requestAllProjects();
     this.props.openNewTaskPanel();
     Animated.timing(animation, {
       duration: 300,
@@ -100,7 +106,8 @@ const mapStateToProps = state => ({
 const reduxConnect = connect(mapStateToProps, {
   openNewTaskPanel: enterAddTask,
   closeNewTaskPanel: exitAddTask,
-  createNewTask: createNewTask
+  createNewTask: createNewTask,
+  requestAllProjects
 });
 
 export default reduxConnect(AddTaskSliderContainer);

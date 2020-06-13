@@ -8,7 +8,7 @@ import {
 const initialState = {
   allTasks: [],
   allProjects: [],
-  projectTasks: { days: [], title: "" },
+  projectTasks: { days: { hasReminders: false, tasks: [] }, title: "" },
   isNewTaskPanelOpen: false,
   hasOpenReminders: false,
   todaysReminders: [],

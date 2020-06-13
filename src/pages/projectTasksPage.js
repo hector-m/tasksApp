@@ -13,7 +13,7 @@ class ProjectTasksPage extends React.Component {
   render() {
     const { navigation, projectTasks } = this.props;
     let title = navigation.getParam("ProjectTitle", {});
-    let tasks = projectTasks.days;
+    let tasks = projectTasks.days.tasks;
     return (
       <View style={{ backgroundColor: "#F9FCFF" }}>
         <TasksList data={tasks} title={title} />
