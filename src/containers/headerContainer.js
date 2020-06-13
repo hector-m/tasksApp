@@ -44,7 +44,8 @@ class HeaderContainer extends React.Component {
     );
   }
 
-  getRemindersHeader(todaysReminders) {
+  getRemindersHeader() {
+    const { todaysReminders } = this.props;
     if (this.props.hasOpenReminders) {
       return <RemindersHeader todaysReminders={todaysReminders} />;
     }
@@ -68,7 +69,7 @@ class HeaderContainer extends React.Component {
         >
           {this.getBackgroundBubbles()}
           <Header user={user} todaysReminderCount={todaysReminders.length} />
-          {this.getRemindersHeader(todaysReminders)}
+          {this.getRemindersHeader()}
         </LinearGradient>
       </View>
     );

@@ -52,22 +52,27 @@ export default function reducer(state = initialState, action) {
     case types.PROJECT_DATE_CHANGED:
       return { ...state, newProjectDate: action.payload };
     case types.REQUEST_ALL_TASKS:
-      let allTasks = action.data;
-      if (allTasks.length == 0 || allTasks[0].day != "Today") {
+      let allTasks = action.data.tasks;
+      if (!action.data.hasReminders) {
         return {
           ...state,
-          allTasks: action.data,
+          allTasks,
           hasOpenReminders: false,
           todaysReminders: []
         };
       }
       let reminders = [];
-      allTasks[0].data.forEach(task => {
-        task.reminder && !task.complete ? reminders.push(task) : null;
-      });
+      for (day of allTasks) {
+        day.data.forEach(task => {
+          task.reminder && !task.complete ? reminders.push(task) : null;
+        });
+        if (day == "Today") {
+          break;
+        }
+      }
       return {
         ...state,
-        allTasks: action.data,
+        allTasks,
         hasOpenReminders: reminders.length != 0,
         todaysReminders: reminders
       };

@@ -47,6 +47,7 @@ export const deleteTask = id => {
 
 const formatTasks = data => {
   let responseMap = new Map();
+  let hasReminders = false;
   data.forEach(task => {
     let time = moment(task.start_time).calendar({
       sameDay: "[Today]",
@@ -56,16 +57,24 @@ const formatTasks = data => {
       lastWeek: "[Last] dddd",
       sameElse: "MMMM Do"
     });
+    if (
+      !hasReminders &&
+      task.reminder &&
+      moment(task.start_time).isBefore(moment().add(1, "day"))
+    ) {
+      hasReminders = true;
+    }
     responseMap.has(time)
       ? responseMap.get(time).push(task)
       : responseMap.set(time, [task]);
   });
 
-  let response = [];
+  let responseTasksByDay = [];
   responseMap.forEach((value, key) => {
-    response.push({ day: key, data: value });
+    responseTasksByDay.push({ day: key, data: value });
   });
-  return response;
+
+  return { tasks: responseTasksByDay, hasReminders: hasReminders };
 };
 export const getAllTasks = dispatchSuccess => {
   database.transaction(
