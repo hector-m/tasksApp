@@ -8,6 +8,12 @@ database.transaction(tx => {
   );
 });
 
+database.transaction(tx => {
+  tx.executeSql(
+    "INSERT INTO projects (title, color, icon) SELECT 'Personal', '#FFD506', 'user' where NOT EXISTS (SELECT * FROM projects) UNION ALL SELECT 'Work', '#5DE61A', 'briefcase' where NOT EXISTS (SELECT * FROM projects) UNION ALL SELECT 'Other', '#D10263', 'desktop' where NOT EXISTS (SELECT * FROM projects)"
+  );
+});
+
 export const addProject = (title, color, icon) => {
   database.transaction(
     tx => {

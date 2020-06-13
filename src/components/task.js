@@ -30,6 +30,11 @@ export default class Task extends React.Component {
     onDeleteTask(id);
   };
 
+  handleEdit = () => {
+    const { onEditTask, id, title, start, project } = this.props;
+    onEditTask({ id, title, start, project });
+  };
+
   renderDeleteButton = () => {
     return (
       <TouchableOpacity
@@ -50,6 +55,31 @@ export default class Task extends React.Component {
           iconStyle={{ marginHorizontal: 10 }}
           size={20}
           onPress={this.handleDelete}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  renderEditButton = () => {
+    return (
+      <TouchableOpacity
+        style={{
+          paddingLeft: 8,
+          height: "100%",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center"
+        }}
+      >
+        <Icon
+          reverse
+          name="pencil"
+          type="font-awesome"
+          color={"#ceefff"}
+          reverseColor="#37BCFA"
+          iconStyle={{ marginHorizontal: 10 }}
+          size={20}
+          onPress={this.handleEdit}
         />
       </TouchableOpacity>
     );
@@ -108,6 +138,7 @@ export default class Task extends React.Component {
       <Swipeable
         ref={ref => (this.currentlyOpenSwipeable = ref)}
         renderRightActions={this.renderDeleteButton}
+        renderLeftActions={this.renderEditButton}
         containerStyle={{ overflow: "visible" }}
       >
         {this.renderTaskRow()}

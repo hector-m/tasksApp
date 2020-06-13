@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { StyleSheet, TouchableOpacity, Animated, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { getIsNewTaskPanelOpen } from "../redux/selectors";
+import { getIsPanelOpen } from "../redux/selectors";
 
 class AddTaskButton extends React.Component {
   constructor(props) {
@@ -24,8 +24,8 @@ class AddTaskButton extends React.Component {
   };
 
   toggle() {
-    const { isNewTaskPanelOpen, closeWindow, openWindow } = this.props;
-    if (isNewTaskPanelOpen) {
+    const { isPanelOpen, closeWindow, openWindow } = this.props;
+    if (isPanelOpen) {
       closeWindow();
     } else {
       openWindow();
@@ -52,7 +52,7 @@ class AddTaskButton extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isNewTaskPanelOpen: getIsNewTaskPanelOpen(state)
+  isPanelOpen: getIsPanelOpen(state)
 });
 
 const reduxConnect = connect(mapStateToProps, {});

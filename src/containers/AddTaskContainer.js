@@ -16,19 +16,23 @@ import {
   enterAddTask,
   exitAddTask,
   createNewTask,
+  updateTask,
   onProjectTitleChanged,
   onProjectTypeClicked,
   onProjectDateClicked,
   onProjectDateChanged
 } from "../redux/actions";
 import {
-  getIsNewTaskPanelOpen,
+  getIsPanelOpen,
+  getIsSettingNewTask,
+  getIsEditingTask,
   getNewProjectTitle,
   getProjectIdSelected,
   getIsPickingProjectDate,
   getNewProjectDate,
   getNewProjectIsReminder,
-  getAllProjects
+  getAllProjects,
+  getTaskEditingId
 } from "../redux/selectors";
 
 class AddTaskContainer extends React.Component {
@@ -164,11 +168,14 @@ class AddTaskContainer extends React.Component {
 
   renderButton() {
     const {
+      isSettingNewTask,
       createNewTask,
+      updateTask,
       projectIdSelected,
       newProjectDate,
       newProjectTitle,
-      isNewProjectReminder
+      isNewProjectReminder,
+      taskEditingId
     } = this.props;
     return (
       <TouchableOpacity
@@ -180,15 +187,26 @@ class AddTaskContainer extends React.Component {
           overflow: "visible",
           marginVertical: 50
         }}
-        onPress={() =>
-          createNewTask(
-            newProjectTitle,
-            newProjectDate,
-            null,
-            projectIdSelected,
-            isNewProjectReminder
-          )
-        }
+        onPress={() => {
+          if (isSettingNewTask) {
+            createNewTask(
+              newProjectTitle,
+              newProjectDate,
+              null,
+              projectIdSelected,
+              isNewProjectReminder
+            );
+          } else {
+            updateTask(
+              taskEditingId,
+              newProjectTitle,
+              newProjectDate,
+              null,
+              projectIdSelected,
+              isNewProjectReminder
+            );
+          }
+        }}
       >
         <LinearGradient
           colors={["#7EB6FF", "#5F87E7"]}
@@ -204,7 +222,7 @@ class AddTaskContainer extends React.Component {
           }}
         >
           <Text style={{ fontSize: 18, color: "white", fontWeight: "700" }}>
-            Add task
+            {isSettingNewTask ? "Add task" : "Save changes"}
           </Text>
         </LinearGradient>
       </TouchableOpacity>
@@ -213,11 +231,13 @@ class AddTaskContainer extends React.Component {
 
   render() {
     const {
-      isNewTaskPanelOpen,
+      isPanelOpen,
+      isSettingNewTask,
+      isEditingTask,
       onProjectTitleChanged,
       newProjectTitle
     } = this.props;
-    if (!isNewTaskPanelOpen) {
+    if (!isPanelOpen) {
       return null;
     }
 
@@ -231,7 +251,7 @@ class AddTaskContainer extends React.Component {
             color: "#554E8F"
           }}
         >
-          Add new task
+          {isSettingNewTask ? "Add new task" : "Edit task"}
         </Text>
         <TextInput
           style={{
@@ -240,7 +260,7 @@ class AddTaskContainer extends React.Component {
             fontSize: 20,
             color: "#373737"
           }}
-          autoFocus
+          autoFocus={isSettingNewTask}
           onChangeText={text => onProjectTitleChanged(text)}
           value={newProjectTitle}
         />
@@ -273,19 +293,23 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  isNewTaskPanelOpen: getIsNewTaskPanelOpen(state),
+  isPanelOpen: getIsPanelOpen(state),
+  isSettingNewTask: getIsSettingNewTask(state),
+  isEditingTask: getIsEditingTask(state),
   projects: getAllProjects(state),
   projectIdSelected: getProjectIdSelected(state),
   isPickingProjectDate: getIsPickingProjectDate(state),
   newProjectDate: getNewProjectDate(state),
   newProjectTitle: getNewProjectTitle(state),
-  isNewProjectReminder: getNewProjectIsReminder(state)
+  isNewProjectReminder: getNewProjectIsReminder(state),
+  taskEditingId: getTaskEditingId(state)
 });
 
 const reduxConnect = connect(mapStateToProps, {
   openNewTaskPanel: enterAddTask,
   closeNewTaskPanel: exitAddTask,
   createNewTask: createNewTask,
+  updateTask,
   onProjectTitleChanged,
   selectProjectType: onProjectTypeClicked,
   onProjectDateClicked,

@@ -8,7 +8,7 @@ import {
   createNewTask,
   requestAllProjects
 } from "../redux/actions";
-import { getIsNewTaskPanelOpen } from "../redux/selectors";
+import { getIsPanelOpen } from "../redux/selectors";
 import AddTaskButton from "../components/addTaskButton";
 import AddTaskContainer from "./AddTaskContainer";
 
@@ -22,7 +22,7 @@ class AddTaskSliderContainer extends React.Component {
     this.state = {};
   }
 
-  // animation = new Animated.Value(this.props.isNewTaskPanelOpen); //0 put one to start open
+  // animation = new Animated.Value(this.props.isPanelOpen); //0 put one to start open
 
   openWindow = () => {
     const { animation } = this.props;
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  animation: new Animated.Value(getIsNewTaskPanelOpen(state))
+  animation: new Animated.Value(getIsPanelOpen(state))
 });
 
 const reduxConnect = connect(mapStateToProps, {

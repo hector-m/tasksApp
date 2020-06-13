@@ -1,6 +1,8 @@
 import { createSelector } from "reselect";
 
-export const getIsNewTaskPanelOpen = state => state.isNewTaskPanelOpen;
+export const getIsPanelOpen = state => state.isPanelOpen;
+export const getIsEditingTask = state => state.isEditingTask;
+export const getIsSettingNewTask = state => state.isSettingNewTask;
 export const getHasOpenReminders = state => state.hasOpenReminders;
 export const getProjectIdSelected = state => state.newProjectType;
 export const getIsPickingProjectDate = state => state.isPickingProjectDate;
@@ -11,3 +13,4 @@ export const getAllProjects = state => state.allProjects;
 export const getProjectTasks = state => state.projectTasks;
 export const getNewProjectIsReminder = state => state.isProjectReminder;
 export const getTodaysReminders = state => state.todaysReminders;
+export const getTaskEditingId = state => state.taskEditingId;

@@ -33,6 +33,37 @@ export const addTask = (title, start_time, end_date, project, reminder) => {
   );
 };
 
+export const updateTask = (
+  id,
+  title,
+  start_time,
+  end_date,
+  project,
+  reminder
+) => {
+  database.transaction(
+    tx => {
+      tx.executeSql(
+        `update tasks set title=?, start_time=?, end_date=?, project=?, reminder=? where id = ?`,
+        [
+          title,
+          start_time.valueOf(),
+          end_date ? end_date.valueOf() : null,
+          project,
+          reminder,
+          id
+        ],
+        null,
+        null
+      );
+    },
+    error => {
+      console.log("error", error);
+    },
+    null
+  );
+};
+
 export const deleteTask = id => {
   database.transaction(
     tx => {

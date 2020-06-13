@@ -6,6 +6,7 @@ export const types = keyMirror({
   ENTER_ADD_TASK: null,
   EXIT_ADD_TASK: null,
   CREATE_NEW_TASK: null,
+  UPDATE_TASK: null,
   SWIPED_ALL_REMINDERS: null,
   PROJECT_TITLE_CHANGED: null,
   PROJECT_TYPE_CLICKED: null,
@@ -15,6 +16,7 @@ export const types = keyMirror({
   REQUEST_PROJECT_TASKS: null,
   REQUEST_ALL_PROJECTS: null,
   DELETE_TASK: null,
+  EDIT_TASK: null,
   SET_REMINDER_OPTION: null,
   SET_COMPLETED_OPTION: null
 });
@@ -46,6 +48,7 @@ export const onProjectTypeClicked = updateAction(types.PROJECT_TYPE_CLICKED);
 export const onProjectDateClicked = updateAction(types.PROJECT_DATE_CLICKED);
 export const onProjectDateChanged = updateAction(types.PROJECT_DATE_CHANGED);
 export const onProjectTitleChanged = updateAction(types.PROJECT_TITLE_CHANGED);
+export const editTask = updateAction(types.EDIT_TASK);
 
 function updateTasks(dispatch) {
   let dispatchSuccess = data => dispatch(GetAllTasks.success(data));
@@ -81,6 +84,29 @@ export const createNewTask = (
   updateTasks(dispatch);
   dispatch(exitAddTask());
   dispatch(CreateNewTask.success());
+};
+
+const UpdateTask = requestActions(types.UPDATE_TASK);
+export const updateTask = (
+  id,
+  title,
+  start_time,
+  end_date,
+  project,
+  reminder
+) => dispatch => {
+  dispatch(UpdateTask.request());
+  DataHandler.updateTaskInList(
+    id,
+    title,
+    start_time,
+    end_date,
+    project,
+    reminder
+  );
+  updateTasks(dispatch);
+  dispatch(exitAddTask());
+  dispatch(UpdateTask.success());
 };
 
 const DeleteTask = requestActions(types.DELETE_TASK);

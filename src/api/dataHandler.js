@@ -2,6 +2,7 @@ import json_data from "../api/sorted_data.json";
 import {
   getAllTasks,
   addTask,
+  updateTask,
   deleteTask,
   setReminderForTask,
   setCompleteForTask,
@@ -39,6 +40,10 @@ export default class DataHandler {
 
   static addTaskToList(title, start_time, end_date, project, reminder) {
     addTask(title, start_time, end_date, project, reminder);
+  }
+
+  static updateTaskInList(id, title, start_time, end_date, project, reminder) {
+    updateTask(id, title, start_time, end_date, project, reminder);
   }
 
   static deleteTaskFromList(id) {

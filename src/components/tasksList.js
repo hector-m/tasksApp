@@ -3,6 +3,7 @@ import { View, Text, SectionList, StyleSheet, Image } from "react-native";
 import { connect } from "react-redux";
 import {
   deleteTask,
+  editTask,
   setReminderOptionForTask,
   setCompletedOptionForTask
 } from "../redux/actions";
@@ -26,6 +27,7 @@ class TasksList extends React.Component {
   render() {
     const {
       deleteTask,
+      editTask,
       data,
       setReminderOptionForTask,
       setCompletedOptionForTask
@@ -74,6 +76,7 @@ class TasksList extends React.Component {
               reminder={item.reminder}
               complete={item.complete}
               onDeleteTask={deleteTask}
+              onEditTask={editTask}
               onReminderPressed={setReminderOptionForTask}
               onTaskCompleted={setCompletedOptionForTask}
             />
@@ -104,6 +107,7 @@ const mapStateToProps = state => ({});
 
 const reduxConnect = connect(mapStateToProps, {
   deleteTask,
+  editTask,
   setReminderOptionForTask,
   setCompletedOptionForTask
 });
