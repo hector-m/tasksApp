@@ -16,7 +16,7 @@ export default class TasksList extends React.Component {
         id: 0,
         title: "Completed",
         color: "#5DE61A",
-        icon: "bomb",
+        icon: "check-square-o",
         isCompletedList: true
       }
     ]);
