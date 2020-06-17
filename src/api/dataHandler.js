@@ -6,7 +6,8 @@ import {
   deleteTask,
   setReminderForTask,
   setCompleteForTask,
-  getTasksInProject
+  getTasksInProject,
+  getCompletedTasks
 } from "./tasksDao";
 import { getAllProjects } from "./projectsDao";
 
@@ -25,6 +26,10 @@ export default class DataHandler {
 
   static loadedRemindersForProject(projectId, title, dispatchSuccess) {
     getTasksInProject(projectId, title, dispatchSuccess);
+  }
+
+  static loadedCompletedReminders(title, dispatchSuccess) {
+    getCompletedTasks(title, dispatchSuccess);
   }
 
   static getTodaysReminders() {

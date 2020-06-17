@@ -2,7 +2,11 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import { connect } from "react-redux";
 import style from "../style";
-import { requestAllProjects, requestProjectTasks } from "../redux/actions";
+import {
+  requestAllProjects,
+  requestProjectTasks,
+  requestCompletedTasks
+} from "../redux/actions";
 import { getAllProjects } from "../redux/selectors";
 import ProjectsList from "../components/projectsList";
 import DataHandler from "../api/dataHandler";
@@ -20,6 +24,14 @@ class CategoriesPage extends React.Component {
   onProjectPress = (id, title) => {
     const { navigation, requestProjectTasks } = this.props;
     requestProjectTasks(id, title);
+    navigation.navigate("ProjectTasks", {
+      ProjectTitle: title
+    });
+  };
+
+  onCompletedTasksPressed = (id, title) => {
+    const { navigation, requestCompletedTasks } = this.props;
+    requestCompletedTasks(title);
     navigation.navigate("ProjectTasks", {
       ProjectTitle: title
     });
@@ -54,6 +66,7 @@ class CategoriesPage extends React.Component {
           <ProjectsList
             data={allProjects}
             onProjectPress={this.onProjectPress}
+            onCompletedTasksPressed={this.onCompletedTasksPressed}
             dataHandler={DataHandler}
           />
         </View>
@@ -68,7 +81,8 @@ const mapStateToProps = state => ({
 
 const reduxConnect = connect(mapStateToProps, {
   requestAllProjects,
-  requestProjectTasks
+  requestProjectTasks,
+  requestCompletedTasks
 });
 
 export default reduxConnect(CategoriesPage);

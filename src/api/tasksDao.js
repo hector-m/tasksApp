@@ -111,7 +111,7 @@ export const getAllTasks = dispatchSuccess => {
   database.transaction(
     tx => {
       tx.executeSql(
-        `select * from tasks ORDER BY start_time`,
+        `select * from tasks WHERE complete = 0 ORDER BY start_time`,
         [],
         (_, { rows: { _array } }) => {
           let formated = formatTasks(_array);
@@ -131,8 +131,28 @@ export const getTasksInProject = (projectId, title, dispatchSuccess) => {
   database.transaction(
     tx => {
       tx.executeSql(
-        `select * from tasks WHERE project = ? ORDER BY start_time`,
+        `select * from tasks WHERE project = ? AND complete = 0 ORDER BY start_time`,
         [projectId],
+        (_, { rows: { _array } }) => {
+          let formated = { title: title, days: formatTasks(_array) };
+          dispatchSuccess(formated);
+        },
+        null
+      );
+    },
+    error => {
+      console.log("error", error);
+    },
+    null
+  );
+};
+
+export const getCompletedTasks = (title, dispatchSuccess) => {
+  database.transaction(
+    tx => {
+      tx.executeSql(
+        `select * from tasks WHERE complete = 1 ORDER BY start_time`,
+        [],
         (_, { rows: { _array } }) => {
           let formated = { title: title, days: formatTasks(_array) };
           dispatchSuccess(formated);

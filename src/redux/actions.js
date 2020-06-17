@@ -65,6 +65,11 @@ export const requestProjectTasks = (id, title) => dispatch => {
   DataHandler.loadedRemindersForProject(id, title, dispatchSuccess);
 };
 
+export const requestCompletedTasks = title => dispatch => {
+  let dispatchSuccess = data => dispatch(GetProjectTasks.success(data));
+  DataHandler.loadedCompletedReminders(title, dispatchSuccess);
+};
+
 const GetAllProjects = requestActions(types.REQUEST_ALL_PROJECTS);
 export const requestAllProjects = () => dispatch => {
   let dispatchSuccess = data => dispatch(GetAllProjects.success(data));

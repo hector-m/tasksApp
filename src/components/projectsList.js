@@ -10,12 +10,21 @@ export default class TasksList extends React.Component {
   }
 
   render() {
-    const { data, onProjectPress } = this.props;
+    const { data, onProjectPress, onCompletedTasksPressed } = this.props;
+    let projects = data.concat([
+      {
+        id: 0,
+        title: "Completed",
+        color: "#5DE61A",
+        icon: "bomb",
+        isCompletedList: true
+      }
+    ]);
     return (
       <View style={{ padding: 18, width: "100%", height: "100%" }}>
         <Text style={[style.headerText, { fontSize: 13 }]}>Projects</Text>
         <FlatList
-          data={data}
+          data={projects}
           renderItem={({ item }) => (
             <Project
               title={item.title}
@@ -23,7 +32,9 @@ export default class TasksList extends React.Component {
               color={item.color}
               tasks={item.tasks}
               id={item.id}
-              onProjectPress={onProjectPress}
+              onProjectPress={
+                !item.isCompletedList ? onProjectPress : onCompletedTasksPressed
+              }
             />
           )}
           keyExtractor={(_, index) => index.toString()}
