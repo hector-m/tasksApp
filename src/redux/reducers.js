@@ -77,11 +77,11 @@ export default function reducer(state = initialState, action) {
         };
       }
       let reminders = [];
-      for (day of allTasks) {
-        day.data.forEach(task => {
+      for (dayTasks of allTasks) {
+        dayTasks.data.forEach(task => {
           task.reminder && !task.complete ? reminders.push(task) : null;
         });
-        if (day == "Today") {
+        if (dayTasks.day == "Today") {
           break;
         }
       }

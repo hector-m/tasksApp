@@ -25,6 +25,12 @@ const AppNavigator = createBottomTabNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
+      tabBarOnPress: ({ navigation }) => {
+        if (navigation.state.routeName == "Projects") {
+          navigation.popToTop();
+        }
+        navigation.navigate(navigation.state.routeName);
+      },
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
         if (routeName === "Home") {

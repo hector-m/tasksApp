@@ -45,7 +45,8 @@ export default class Header extends React.Component {
     if (todaysReminderCount > 0) {
       return (
         <Text style={{ fontSize: 10, color: "white" }}>
-          Today you have {todaysReminderCount} reminders
+          Today you have {todaysReminderCount} reminder
+          {todaysReminderCount != 1 ? "s" : null}
         </Text>
       );
     }
