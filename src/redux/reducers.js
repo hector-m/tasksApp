@@ -19,7 +19,8 @@ const initialState = {
   newProjectType: 1,
   isPickingProjectDate: false,
   newProjectDate: null,
-  isProjectReminder: false
+  isProjectReminder: false,
+  projectPageId: null
 };
 
 export default function reducer(state = initialState, action) {
@@ -106,6 +107,8 @@ export default function reducer(state = initialState, action) {
         isPickingProjectDate: false,
         newProjectDate: new Date(action.payload.start)
       };
+    case types.OPEN_PROJECT_PAGE:
+      return { ...state, projectPageId: action.payload };
     default:
       return state;
   }
