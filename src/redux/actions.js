@@ -8,6 +8,7 @@ export const types = keyMirror({
   CREATE_NEW_TASK: null,
   UPDATE_TASK: null,
   SWIPED_ALL_REMINDERS: null,
+  SWIPED_REMINDER: null,
   PROJECT_TITLE_CHANGED: null,
   PROJECT_TYPE_CLICKED: null,
   PROJECT_DATE_CLICKED: null,
@@ -45,6 +46,7 @@ const updateAction = type => payload => ({ type, payload });
 export const enterAddTask = updateAction(types.ENTER_ADD_TASK);
 export const exitAddTask = updateAction(types.EXIT_ADD_TASK);
 export const swipedAllReminders = updateAction(types.SWIPED_ALL_REMINDERS);
+export const swipedReminder = updateAction(types.SWIPED_REMINDER);
 export const onProjectTypeClicked = updateAction(types.PROJECT_TYPE_CLICKED);
 export const onProjectDateClicked = updateAction(types.PROJECT_DATE_CLICKED);
 export const onProjectDateChanged = updateAction(types.PROJECT_DATE_CHANGED);

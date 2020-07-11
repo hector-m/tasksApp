@@ -46,9 +46,10 @@ class HeaderContainer extends React.Component {
 
   getRemindersHeader() {
     const { todaysReminders } = this.props;
-    if (this.props.hasOpenReminders) {
-      return <RemindersHeader todaysReminders={todaysReminders} />;
-    }
+    // TODO: FIX HEADER
+    // if (this.props.hasOpenReminders) {
+    //   return <RemindersHeader todaysReminders={todaysReminders} />;
+    // }
     return null;
   }
 

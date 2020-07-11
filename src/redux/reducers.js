@@ -15,6 +15,7 @@ const initialState = {
   taskEditingId: null,
   hasOpenReminders: false,
   todaysReminders: [],
+  cardIndex: 0,
   newProjectTitle: "",
   newProjectType: 1,
   isPickingProjectDate: false,
@@ -54,6 +55,14 @@ export default function reducer(state = initialState, action) {
       };
     case types.SWIPED_ALL_REMINDERS:
       return { ...state, hasOpenReminders: false };
+    case types.SWIPED_REMINDER:
+      let all_reminders = state.todaysReminders;
+      // all_reminders.splice(0, 1);
+      return {
+        ...state,
+        todaysReminders: all_reminders,
+        cardIndex: 1
+      };
     case types.PROJECT_TITLE_CHANGED:
       return { ...state, newProjectTitle: action.payload };
     case types.PROJECT_TYPE_CLICKED:
@@ -90,7 +99,8 @@ export default function reducer(state = initialState, action) {
         ...state,
         allTasks,
         hasOpenReminders: reminders.length != 0,
-        todaysReminders: reminders
+        todaysReminders: reminders,
+        cardIndex: 0
       };
     case types.REQUEST_ALL_PROJECTS:
       return { ...state, allProjects: action.data };

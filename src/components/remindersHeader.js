@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, Image, StyleSheet, Button } from "react-native";
-import { swipedAllReminders } from "../redux/actions";
+import { View, StyleSheet } from "react-native";
+import { swipedAllReminders, swipedReminder } from "../redux/actions";
+import { getCardIndex } from "../redux/selectors";
 import RemindersCard from "./remindersCard";
 import Swiper from "react-native-deck-swiper";
 
@@ -11,22 +12,26 @@ class RemindersHeader extends React.Component {
   }
 
   renderReminderCards() {
-    const { todaysReminders } = this.props;
+    const { todaysReminders, cardIndex } = this.props;
     return (
       <Swiper
         cards={todaysReminders}
         renderCard={card => {
-          return (
-            <RemindersCard title={card.title} startTime={card.start_time} />
-          );
+          if (card) {
+            return (
+              <RemindersCard title={card.title} startTime={card.start_time} />
+            );
+          } else {
+            return null;
+          }
         }}
         onSwiped={cardIndex => {
-          console.log("SWIPED");
+          this.props.swipedReminder(cardIndex);
         }}
         onSwipedAll={() => {
           this.props.swipedAllReminders();
         }}
-        cardIndex={0}
+        cardIndex={cardIndex}
         stackSize={2}
         verticalSwipe={false}
         outputRotationRange={["0deg", "0deg", "0deg"]}
@@ -48,10 +53,13 @@ class RemindersHeader extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  cardIndex: getCardIndex(state)
+});
 
 const reduxConnect = connect(mapStateToProps, {
-  swipedAllReminders
+  swipedAllReminders,
+  swipedReminder
 });
 
 export default reduxConnect(RemindersHeader);
