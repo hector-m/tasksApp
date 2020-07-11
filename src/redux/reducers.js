@@ -45,8 +45,6 @@ export default function reducer(state = initialState, action) {
     case types.CREATE_NEW_TASK:
       return {
         ...state,
-        isPanelOpen: false,
-        isSettingNewTask: false,
         newProjectTitle: "",
         newProjectType: 1,
         isPickingProjectDate: false,

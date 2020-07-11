@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import HomePage from "../pages/homePage";
 import ProjectNavigator from "./projectNav";
 import { Feather, AntDesign } from "@expo/vector-icons";
+import AddTaskButton from "../components/addTaskButton";
 
 const AppNavigator = createBottomTabNavigator(
   {
@@ -15,7 +16,7 @@ const AppNavigator = createBottomTabNavigator(
       showLabel: false,
       navigationOptions: () => ({
         title: "",
-        tabBarIcon: null,
+        tabBarIcon: <AddTaskButton />,
         tabBarOnPress: () => {}
       })
     },

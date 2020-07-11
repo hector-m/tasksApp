@@ -1,8 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { StyleSheet, TouchableOpacity, Animated, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, Animated } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { getIsPanelOpen } from "../redux/selectors";
+import {
+  enterAddTask,
+  exitAddTask,
+  requestAllProjects
+} from "../redux/actions";
 
 class AddTaskButton extends React.Component {
   constructor(props) {
@@ -24,15 +29,23 @@ class AddTaskButton extends React.Component {
   };
 
   toggle() {
-    const { isPanelOpen, closeWindow, openWindow } = this.props;
+    const {
+      isPanelOpen,
+      closeWindow,
+      openWindow,
+      requestAllProjects
+    } = this.props;
     if (isPanelOpen) {
+      console.log("close");
       closeWindow();
     } else {
+      console.log("open");
+      requestAllProjects();
       openWindow();
     }
   }
 
-  renderButton() {
+  render() {
     const sizeStyle = {
       transform: [{ scale: this.buttonSize }]
     };
@@ -45,17 +58,17 @@ class AddTaskButton extends React.Component {
       </TouchableOpacity>
     );
   }
-
-  render() {
-    return this.renderButton();
-  }
 }
 
 const mapStateToProps = state => ({
   isPanelOpen: getIsPanelOpen(state)
 });
 
-const reduxConnect = connect(mapStateToProps, {});
+const reduxConnect = connect(mapStateToProps, {
+  openWindow: enterAddTask,
+  closeWindow: exitAddTask,
+  requestAllProjects
+});
 
 export default reduxConnect(AddTaskButton);
 

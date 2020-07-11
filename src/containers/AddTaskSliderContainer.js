@@ -1,20 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import { StyleSheet, View, Animated, Dimensions } from "react-native";
-import { PanGestureHandler, State } from "react-native-gesture-handler";
-import {
-  enterAddTask,
-  exitAddTask,
-  createNewTask,
-  requestAllProjects
-} from "../redux/actions";
+import { StyleSheet, View, Dimensions, Keyboard } from "react-native";
+import { enterAddTask, exitAddTask } from "../redux/actions";
 import { getIsPanelOpen } from "../redux/selectors";
 import AddTaskButton from "../components/addTaskButton";
 import AddTaskContainer from "./AddTaskContainer";
+import Modal from "react-native-modal";
 
 const { width, height } = Dimensions.get("window");
 const TAB_BAR_HEIGHT = 83;
 const OPEN_HEIGHT = height - TAB_BAR_HEIGHT - 105;
+const HEADER_HEIGHT = 105;
 
 class AddTaskSliderContainer extends React.Component {
   constructor(props) {
@@ -22,67 +18,38 @@ class AddTaskSliderContainer extends React.Component {
     this.state = {};
   }
 
-  // animation = new Animated.Value(this.props.isPanelOpen); //0 put one to start open
-
-  openWindow = () => {
-    const { animation } = this.props;
-    this.props.requestAllProjects();
-    this.props.openNewTaskPanel();
-    Animated.timing(animation, {
-      duration: 300,
-      toValue: 1
-    }).start();
-  };
-
-  closeWindow = () => {
-    const { animation } = this.props;
-    this.props.closeNewTaskPanel();
-    Animated.timing(animation, {
-      duration: 300,
-      toValue: 0
-    }).start();
-  };
-
   renderAddButton() {
-    const { animation } = this.props;
-    const rotateButton = animation.interpolate({
-      inputRange: [0, 1],
-      outputRange: ["0deg", "45deg"]
-    });
     return (
       <View style={styles.button}>
-        <Animated.View style={{ transform: [{ rotate: rotateButton }] }}>
-          <AddTaskButton
-            openWindow={this.openWindow}
-            closeWindow={this.closeWindow}
-          />
-        </Animated.View>
+        <AddTaskButton />
       </View>
     );
   }
 
   render() {
-    const { animation } = this.props;
-    const translateY = animation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, OPEN_HEIGHT]
-    });
+    const { isPanelOpen, closeNewTaskPanel, openNewTaskPanel } = this.props;
     return (
-      <Animated.View
+      <Modal
+        isVisible={isPanelOpen}
+        onSwipeComplete={isPanelOpen ? closeNewTaskPanel : openNewTaskPanel}
+        onBackdropPress={closeNewTaskPanel}
+        onSwipeStart={Keyboard.dismiss}
+        backdropOpacity={0.24}
+        swipeDirection="down"
+        propagateSwipe
         style={{
-          height: translateY,
-          width: width,
-          alignSelf: "center",
+          margin: 0,
+          marginTop: HEADER_HEIGHT,
+          width,
+          justifyContent: "flex-start",
           backgroundColor: "white",
-          position: "absolute",
-          bottom: TAB_BAR_HEIGHT,
           borderTopLeftRadius: 50,
           borderTopRightRadius: 50
         }}
       >
         {this.renderAddButton()}
         <AddTaskContainer />
-      </Animated.View>
+      </Modal>
     );
   }
 }
@@ -100,14 +67,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  animation: new Animated.Value(getIsPanelOpen(state))
+  isPanelOpen: getIsPanelOpen(state)
 });
 
 const reduxConnect = connect(mapStateToProps, {
   openNewTaskPanel: enterAddTask,
-  closeNewTaskPanel: exitAddTask,
-  createNewTask: createNewTask,
-  requestAllProjects
+  closeNewTaskPanel: exitAddTask
 });
 
 export default reduxConnect(AddTaskSliderContainer);
