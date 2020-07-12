@@ -1,5 +1,4 @@
 import * as SQLite from "expo-sqlite";
-import moment from "moment";
 
 const database = SQLite.openDatabase("TasksApp.db");
 
@@ -76,95 +75,96 @@ export const deleteTask = id => {
   );
 };
 
-const formatTasks = data => {
-  let responseMap = new Map();
-  let hasReminders = false;
-  data.forEach(task => {
-    let time = moment(task.start_time).calendar({
-      sameDay: "[Today]",
-      nextDay: "[Tomorrow]",
-      nextWeek: "dddd",
-      lastDay: "[Yesterday]",
-      lastWeek: "[Last] dddd",
-      sameElse: "MMMM Do"
-    });
-    if (
-      !hasReminders &&
-      task.reminder &&
-      moment(task.start_time).isBefore(moment().add(1, "day"))
-    ) {
-      hasReminders = true;
-    }
-    responseMap.has(time)
-      ? responseMap.get(time).push(task)
-      : responseMap.set(time, [task]);
+export const getAllTasks = () => {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction(
+      tx => {
+        tx.executeSql(
+          `select * from tasks WHERE complete = 0 ORDER BY start_time`,
+          [],
+          (_, { rows: { _array } }) => {
+            resolve(_array);
+          },
+          null
+        );
+      },
+      (_, error) => {
+        reject(error);
+      },
+      null
+    );
   });
+  return promise;
+};
 
-  let responseTasksByDay = [];
-  responseMap.forEach((value, key) => {
-    responseTasksByDay.push({ day: key, data: value });
+export const getTasksInProject = projectId => {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction(
+      tx => {
+        tx.executeSql(
+          `select * from tasks WHERE project = ? AND complete = 0 ORDER BY start_time`,
+          [projectId],
+          (_, { rows: { _array } }) => {
+            resolve(_array);
+          },
+          null
+        );
+      },
+      (_, error) => {
+        reject(error);
+      },
+      null
+    );
   });
-
-  return { tasks: responseTasksByDay, hasReminders: hasReminders };
-};
-export const getAllTasks = dispatchSuccess => {
-  database.transaction(
-    tx => {
-      tx.executeSql(
-        `select * from tasks WHERE complete = 0 ORDER BY start_time`,
-        [],
-        (_, { rows: { _array } }) => {
-          let formated = formatTasks(_array);
-          dispatchSuccess(formated);
-        },
-        null
-      );
-    },
-    error => {
-      console.log("error", error);
-    },
-    null
-  );
+  return promise;
 };
 
-export const getTasksInProject = (projectId, title, dispatchSuccess) => {
-  database.transaction(
-    tx => {
-      tx.executeSql(
-        `select * from tasks WHERE project = ? AND complete = 0 ORDER BY start_time`,
-        [projectId],
-        (_, { rows: { _array } }) => {
-          let formated = { title: title, days: formatTasks(_array) };
-          dispatchSuccess(formated);
-        },
-        null
-      );
-    },
-    error => {
-      console.log("error", error);
-    },
-    null
-  );
+export const getTaskCountForProjects = () => {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction(
+      tx => {
+        tx.executeSql(
+          `select project, count(*) as count from tasks WHERE complete = 0 GROUP BY project`,
+          [],
+          (_, { rows: { _array } }) => {
+            let resp = new Map();
+            _array.forEach(obj => {
+              resp.set(obj.project, obj.count);
+            });
+            resolve(resp);
+          },
+          null
+        );
+      },
+      (_, error) => {
+        reject(error);
+      },
+      null
+    );
+  });
+  return promise;
 };
 
-export const getCompletedTasks = (title, dispatchSuccess) => {
-  database.transaction(
-    tx => {
-      tx.executeSql(
-        `select * from tasks WHERE complete = 1 ORDER BY start_time`,
-        [],
-        (_, { rows: { _array } }) => {
-          let formated = { title: title, days: formatTasks(_array) };
-          dispatchSuccess(formated);
-        },
-        null
-      );
-    },
-    error => {
-      console.log("error", error);
-    },
-    null
-  );
+export const getCompletedTasks = () => {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction(
+      tx => {
+        tx.executeSql(
+          `select * from tasks WHERE complete = 1 ORDER BY start_time`,
+          [],
+          (_, { rows: { _array } }) => {
+            resolve(_array);
+          },
+          null
+        );
+      },
+      (_, error) => {
+        reject(error);
+      },
+      null
+    );
+  });
+  return promise;
 };
 
 export function setReminderForTask(id, isReminder) {

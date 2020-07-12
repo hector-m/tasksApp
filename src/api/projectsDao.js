@@ -43,21 +43,24 @@ export const deleteProject = id => {
   );
 };
 
-export const getAllProjects = dispatchSuccess => {
-  database.transaction(
-    tx => {
-      tx.executeSql(
-        `select * from projects`,
-        [],
-        (_, { rows: { _array } }) => {
-          dispatchSuccess(_array);
-        },
-        null
-      );
-    },
-    error => {
-      console.log("error:", error);
-    },
-    null
-  );
+export const getAllProjects = () => {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction(
+      tx => {
+        tx.executeSql(
+          `select * from projects`,
+          [],
+          (_, { rows: { _array } }) => {
+            resolve(_array);
+          },
+          null
+        );
+      },
+      (_, error) => {
+        reject(error);
+      },
+      null
+    );
+  });
+  return promise;
 };

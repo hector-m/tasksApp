@@ -8,7 +8,7 @@ export default class Project extends React.Component {
   };
 
   render() {
-    const { title, tasks, color, icon } = this.props;
+    const { title, taskCount, color, icon } = this.props;
     return (
       <TouchableOpacity onPress={this.onpress}>
         <View style={styles.card}>
@@ -21,7 +21,9 @@ export default class Project extends React.Component {
             size={35}
           />
           <Text style={styles.text}>{title}</Text>
-          {/* <Text style={styles.subtext}>{tasks.length} Tasks</Text> */}
+          <Text style={styles.subtext}>
+            {taskCount > 0 ? taskCount : "No"} Task{taskCount == 1 ? null : "s"}
+          </Text>
         </View>
       </TouchableOpacity>
     );

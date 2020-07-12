@@ -30,7 +30,7 @@ export default class TasksList extends React.Component {
               title={item.title}
               icon={item.icon}
               color={item.color}
-              tasks={item.tasks}
+              taskCount={item.count}
               id={item.id}
               onProjectPress={
                 !item.isCompletedList ? onProjectPress : onCompletedTasksPressed

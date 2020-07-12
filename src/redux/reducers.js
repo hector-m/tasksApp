@@ -6,6 +6,8 @@ import {
 } from "../constants/RequestStates";
 
 const initialState = {
+  name: "Hector",
+  icon: require("../assets/profile.jpg"),
   allTasks: [],
   allProjects: [],
   projectTasks: { days: { hasReminders: false, tasks: [] }, title: "" },
@@ -27,6 +29,10 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   console.log(action.type, "Payload: ", action.payload);
   switch (action.type) {
+    case types.SET_NAME:
+      return { ...state, name: action.payload };
+    case types.SET_ICON:
+      return { ...state, icon: action.payload };
     case types.ENTER_ADD_TASK:
       return { ...state, isPanelOpen: true, isSettingNewTask: true };
     case types.EXIT_ADD_TASK:

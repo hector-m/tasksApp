@@ -34,7 +34,14 @@ class TasksList extends React.Component {
     } = this.props;
     if (data.length == 0) {
       return (
-        <View style={{ display: "flex", height: "100%" }}>
+        <View
+          style={{
+            display: "flex",
+            height: "100%",
+            padding: 18
+          }}
+        >
+          {this.renderProjectTitle()}
           <View
             style={{
               flex: 1,

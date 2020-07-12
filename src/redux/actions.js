@@ -3,6 +3,8 @@ import { RequestStates } from "../constants/RequestStates";
 import keyMirror from "keymirror";
 
 export const types = keyMirror({
+  SET_NAME: null,
+  SET_ICON: null,
   ENTER_ADD_TASK: null,
   EXIT_ADD_TASK: null,
   CREATE_NEW_TASK: null,
@@ -43,6 +45,8 @@ const requestActions = type => ({
 
 const updateAction = type => payload => ({ type, payload });
 
+export const setName = updateAction(types.SET_NAME);
+export const setIcon = updateAction(types.SET_ICON);
 export const enterAddTask = updateAction(types.ENTER_ADD_TASK);
 export const exitAddTask = updateAction(types.EXIT_ADD_TASK);
 export const swipedAllReminders = updateAction(types.SWIPED_ALL_REMINDERS);

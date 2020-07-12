@@ -3,8 +3,12 @@ import { connect } from "react-redux";
 import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { enterAddTask } from "../redux/actions";
-import { getHasOpenReminders, getTodaysReminders } from "../redux/selectors";
-import DataHandler from "../api/dataHandler";
+import {
+  getHasOpenReminders,
+  getTodaysReminders,
+  getIcon,
+  getName
+} from "../redux/selectors";
 import Header from "../components/header";
 import RemindersHeader from "../components/remindersHeader";
 
@@ -54,8 +58,7 @@ class HeaderContainer extends React.Component {
   }
 
   render() {
-    const { todaysReminders } = this.props;
-    let user = this.getUserData();
+    const { name, icon, todaysReminders } = this.props;
     return (
       <View style={{ width: "100%" }}>
         <LinearGradient
@@ -69,21 +72,23 @@ class HeaderContainer extends React.Component {
           }}
         >
           {this.getBackgroundBubbles()}
-          <Header user={user} todaysReminderCount={todaysReminders.length} />
+          <Header
+            userName={name}
+            icon={icon}
+            todaysReminderCount={todaysReminders.length}
+          />
           {this.getRemindersHeader()}
         </LinearGradient>
       </View>
     );
   }
-
-  getUserData() {
-    return DataHandler.loadUser();
-  }
 }
 
 const mapStateToProps = state => ({
   hasOpenReminders: getHasOpenReminders(state),
-  todaysReminders: getTodaysReminders(state)
+  todaysReminders: getTodaysReminders(state),
+  name: getName(state),
+  icon: getIcon(state)
 });
 
 const reduxConnect = connect(mapStateToProps, {

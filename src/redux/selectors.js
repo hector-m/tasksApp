@@ -15,3 +15,5 @@ export const getNewProjectIsReminder = state => state.isProjectReminder;
 export const getTodaysReminders = state => state.todaysReminders;
 export const getTaskEditingId = state => state.taskEditingId;
 export const getCardIndex = state => state.cardIndex;
+export const getName = state => state.name;
+export const getIcon = state => state.icon;

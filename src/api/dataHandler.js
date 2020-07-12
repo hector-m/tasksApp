@@ -1,4 +1,4 @@
-import json_data from "../api/sorted_data.json";
+import moment from "moment";
 import {
   getAllTasks,
   addTask,
@@ -7,41 +7,46 @@ import {
   setReminderForTask,
   setCompleteForTask,
   getTasksInProject,
-  getCompletedTasks
+  getCompletedTasks,
+  getTaskCountForProjects
 } from "./tasksDao";
 import { getAllProjects } from "./projectsDao";
 
 export default class DataHandler {
-  static loadedReminders(dispatchSuccess) {
-    getAllTasks(dispatchSuccess);
-  }
+  static loadedReminders = async dispatchSuccess => {
+    const tasks = await getAllTasks();
+    let formated = this.formatTasks(tasks);
+    dispatchSuccess(formated);
+  };
 
-  static loadedProjects(dispatchSuccess) {
-    getAllProjects(dispatchSuccess);
-  }
-
-  static loadUser() {
-    return json_data.User;
-  }
-
-  static loadedRemindersForProject(projectId, title, dispatchSuccess) {
-    getTasksInProject(projectId, title, dispatchSuccess);
-  }
-
-  static loadedCompletedReminders(title, dispatchSuccess) {
-    getCompletedTasks(title, dispatchSuccess);
-  }
-
-  static getTodaysReminders() {
-    let tasksByDay = json_data.Tasks;
+  static loadedProjects = async dispatchSuccess => {
     let response = [];
-    for (let dayObject of tasksByDay) {
-      if (dayObject.day == "Today") {
-        response = dayObject.tasks.filter(x => x.reminder == true);
-      }
-    }
-    return response;
-  }
+    const projects = await getAllProjects();
+    const taskCountForProjects = await getTaskCountForProjects();
+    projects.forEach(project => {
+      project.count = taskCountForProjects.has(project.id)
+        ? taskCountForProjects.get(project.id)
+        : 0;
+      response.push(project);
+    });
+    dispatchSuccess(projects);
+  };
+
+  static loadedRemindersForProject = async (
+    projectId,
+    title,
+    dispatchSuccess
+  ) => {
+    const tasks = await getTasksInProject(projectId);
+    let formated = { title: title, days: this.formatTasks(tasks) };
+    dispatchSuccess(formated);
+  };
+
+  static loadedCompletedReminders = async (title, dispatchSuccess) => {
+    const tasks = await getCompletedTasks(title, dispatchSuccess);
+    let formated = { title: title, days: this.formatTasks(tasks) };
+    dispatchSuccess(formated);
+  };
 
   static addTaskToList(title, start_time, end_date, project, reminder) {
     addTask(title, start_time, end_date, project, reminder);
@@ -63,7 +68,35 @@ export default class DataHandler {
     setCompleteForTask(id, isReminder);
   }
 
-  // static reminderForId(reminderId) {
-  //   return this.loadedReminders().find(x => x.id === reminderId);
-  // }
+  static formatTasks(data) {
+    let responseMap = new Map();
+    let hasReminders = false;
+    data.forEach(task => {
+      let time = moment(task.start_time).calendar({
+        sameDay: "[Today]",
+        nextDay: "[Tomorrow]",
+        nextWeek: "dddd",
+        lastDay: "[Yesterday]",
+        lastWeek: "[Last] dddd",
+        sameElse: "MMMM Do"
+      });
+      if (
+        !hasReminders &&
+        task.reminder &&
+        moment(task.start_time).isBefore(moment().add(1, "day"))
+      ) {
+        hasReminders = true;
+      }
+      responseMap.has(time)
+        ? responseMap.get(time).push(task)
+        : responseMap.set(time, [task]);
+    });
+
+    let responseTasksByDay = [];
+    responseMap.forEach((value, key) => {
+      responseTasksByDay.push({ day: key, data: value });
+    });
+
+    return { tasks: responseTasksByDay, hasReminders: hasReminders };
+  }
 }

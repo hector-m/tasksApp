@@ -7,7 +7,7 @@ export default class Header extends React.Component {
   }
 
   render() {
-    let { user } = this.props;
+    let { userName, icon } = this.props;
     return (
       <View
         style={{
@@ -28,12 +28,12 @@ export default class Header extends React.Component {
           }}
         >
           <Text style={{ fontSize: 17, color: "white" }}>
-            Hello {user.first_name}!
+            Hello {userName}!
           </Text>
           {this.getTodaysReminders()}
         </View>
         <Image
-          source={require("../assets/profile.jpg")}
+          source={icon}
           style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
         />
       </View>
