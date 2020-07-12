@@ -1,4 +1,5 @@
 import DataHandler from "../api/dataHandler";
+import NotificationsClient from "../api/NotificationsClient";
 import { RequestStates } from "../constants/RequestStates";
 import keyMirror from "keymirror";
 
@@ -144,22 +145,26 @@ export const deleteTask = id => (dispatch, getState) => {
 };
 
 const SetReminderOptionForTask = requestActions(types.SET_REMINDER_OPTION);
-export const setReminderOptionForTask = (id, isReminder) => (
+export const setReminderOptionForTask = (task, isReminder) => (
   dispatch,
   getState
 ) => {
   dispatch(SetReminderOptionForTask.request());
-  DataHandler.setReminderOptionForTask(id, isReminder);
-  updateTasks(dispatch, getState());
-  dispatch(SetReminderOptionForTask.success());
+  NotificationsClient.toggleNotification(task, isReminder)
+    .then(DataHandler.setReminderOptionForTask(id, isReminder))
+    .then(updateTasks(dispatch, getState()))
+    .then(dispatch(SetReminderOptionForTask.success()));
 };
 
 const SetCompletedOptionForTask = requestActions(types.SET_COMPLETED_OPTION);
-export const setCompletedOptionForTask = (id, isComplete) => (
+export const setCompletedOptionForTask = (task, isComplete) => (
   dispatch,
   getState
 ) => {
   dispatch(SetCompletedOptionForTask.request());
+  if (task.reminder) {
+    NotificationsClient.cancelNotification(task.id);
+  }
   DataHandler.setCompleteOptionForTask(id, isComplete);
   updateTasks(dispatch, getState());
   dispatch(SetCompletedOptionForTask.success());

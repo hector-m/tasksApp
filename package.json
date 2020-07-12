@@ -12,6 +12,7 @@
     "@react-native-community/datetimepicker": "2.2.2",
     "expo": "^37.0.0",
     "expo-linear-gradient": "~8.1.0",
+    "expo-notifications": "~0.1.1",
     "expo-sqlite": "~8.1.0",
     "immutable": "^4.0.0-rc.12",
     "keymirror": "^0.1.1",

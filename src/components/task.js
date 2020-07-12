@@ -16,13 +16,13 @@ export default class Task extends React.Component {
   };
 
   handleCompleted = () => {
-    const { onTaskCompleted, complete, id } = this.props;
-    onTaskCompleted(id, !complete);
+    const { onTaskCompleted, complete, task } = this.props;
+    onTaskCompleted(task, !complete);
   };
 
   handleReminder = () => {
-    const { onReminderPressed, reminder, id } = this.props;
-    onReminderPressed(id, !reminder);
+    const { onReminderPressed, reminder, task } = this.props;
+    onReminderPressed(task, !reminder);
   };
 
   handleDelete = () => {

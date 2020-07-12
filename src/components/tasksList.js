@@ -82,6 +82,7 @@ class TasksList extends React.Component {
               project={item.project}
               reminder={item.reminder}
               complete={item.complete}
+              task={item}
               onDeleteTask={deleteTask}
               onEditTask={editTask}
               onReminderPressed={setReminderOptionForTask}
