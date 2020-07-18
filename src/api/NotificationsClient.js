@@ -1,5 +1,13 @@
 import * as Notifications from "expo-notifications";
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true
+  })
+});
+
 export default class NotificationsClient {
   static toggleNotification = async (task, shouldSetNotification) => {
     if (shouldSetNotification) {
@@ -9,12 +17,14 @@ export default class NotificationsClient {
   };
 
   static scheduleNotification = async (id, titleText, time) => {
-    let now = Date.now();
-    now.setSeconds(0);
-    let trigger = new Date(time - now);
+    let trigger = new Date(time);
+    trigger.setSeconds(0, 0);
+    if (trigger < new Date()) {
+      return;
+    }
 
     return Notifications.scheduleNotificationAsync({
-      identifier: id,
+      identifier: String(id),
       content: {
         title: titleText
       },

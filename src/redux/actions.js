@@ -151,7 +151,7 @@ export const setReminderOptionForTask = (task, isReminder) => (
 ) => {
   dispatch(SetReminderOptionForTask.request());
   NotificationsClient.toggleNotification(task, isReminder)
-    .then(DataHandler.setReminderOptionForTask(id, isReminder))
+    .then(DataHandler.setReminderOptionForTask(task.id, isReminder))
     .then(updateTasks(dispatch, getState()))
     .then(dispatch(SetReminderOptionForTask.success()));
 };
@@ -165,7 +165,7 @@ export const setCompletedOptionForTask = (task, isComplete) => (
   if (task.reminder) {
     NotificationsClient.cancelNotification(task.id);
   }
-  DataHandler.setCompleteOptionForTask(id, isComplete);
+  DataHandler.setCompleteOptionForTask(task.id, isComplete);
   updateTasks(dispatch, getState());
   dispatch(SetCompletedOptionForTask.success());
 };
