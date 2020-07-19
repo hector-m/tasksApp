@@ -131,6 +131,9 @@ export const updateTask = (
     project,
     reminder
   );
+  if (reminder) {
+    NotificationsClient.toggleNotification({ id, title, start_time }, reminder);
+  }
   updateTasks(dispatch, getState());
   dispatch(exitAddTask());
   dispatch(UpdateTask.success());

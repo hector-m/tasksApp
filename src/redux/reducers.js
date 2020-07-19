@@ -115,11 +115,12 @@ export default function reducer(state = initialState, action) {
         ...state,
         isPanelOpen: true,
         isEditingTask: true,
+        isPickingProjectDate: false,
         taskEditingId: action.payload.id,
         newProjectTitle: action.payload.title,
         newProjectType: action.payload.project,
-        isPickingProjectDate: false,
-        newProjectDate: new Date(action.payload.start)
+        newProjectDate: new Date(action.payload.start),
+        isProjectReminder: action.payload.reminder
       };
     case types.OPEN_PROJECT_PAGE:
       return { ...state, projectPageId: action.payload };

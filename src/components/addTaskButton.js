@@ -19,10 +19,12 @@ class AddTaskButton extends React.Component {
     Animated.sequence([
       Animated.timing(this.buttonSize, {
         toValue: 0.95,
-        duration: 0
+        duration: 0,
+        useNativeDriver: true
       }),
       Animated.timing(this.buttonSize, {
-        toValue: 1
+        toValue: 1,
+        useNativeDriver: true
       })
     ]).start();
     this.toggle();

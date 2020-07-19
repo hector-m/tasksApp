@@ -27,12 +27,13 @@ export default class Task extends React.Component {
 
   handleDelete = () => {
     const { onDeleteTask, id } = this.props;
+    this.currentlyOpenSwipeable.close();
     onDeleteTask(id);
   };
 
   handleEdit = () => {
-    const { onEditTask, id, title, start, project } = this.props;
-    onEditTask({ id, title, start, project });
+    const { onEditTask, id, title, start, project, reminder } = this.props;
+    onEditTask({ id, title, start, project, reminder });
     this.currentlyOpenSwipeable.close();
   };
 
