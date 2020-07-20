@@ -1,26 +1,47 @@
 import React from "react";
+import { connect } from "react-redux";
 import { View, Text, Image } from "react-native";
+import {
+  onGetNameAndIconFromStorage,
+  requestAllTasks,
+  requestAllProjects
+} from "../redux/actions";
+import AsyncStorage from "@react-native-community/async-storage";
 
-export default class SplashScreen extends React.Component {
+class SplashScreen extends React.Component {
   performTimeConsumingTask = async () => {
-    return new Promise(resolve =>
-      setTimeout(
-        () => {
-          resolve("result");
-        },
-        // TODO: Add code to get data
-        0
-      )
-    );
+    const {
+      onGetNameAndIconFromStorage,
+      requestAllTasks,
+      requestAllProjects
+    } = this.props;
+    let name, icon;
+    try {
+      const storedName = await AsyncStorage.getItem("@Name");
+      if (storedName !== null) {
+        name = storedName;
+      }
+      const storedIcon = await AsyncStorage.getItem("@Icon");
+      if (storedIcon !== null) {
+        icon = storedIcon;
+      }
+      onGetNameAndIconFromStorage({ name, icon });
+    } catch (e) {
+      console.log(e);
+    }
+    requestAllTasks();
+    requestAllProjects();
+    return icon;
   };
 
   async componentDidMount() {
     // Preload data from an external API
     // Preload data using AsyncStorage
     const data = await this.performTimeConsumingTask();
-
-    if (data !== null) {
+    if (data) {
       this.props.navigation.navigate("App");
+    } else {
+      this.props.navigation.navigate("SetUp");
     }
   }
 
@@ -49,3 +70,13 @@ export default class SplashScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({});
+
+const reduxConnect = connect(mapStateToProps, {
+  onGetNameAndIconFromStorage,
+  requestAllTasks,
+  requestAllProjects
+});
+
+export default reduxConnect(SplashScreen);

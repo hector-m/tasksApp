@@ -1,15 +1,33 @@
 import React from "react";
 import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createStackNavigator } from "react-navigation-stack";
 import HomePage from "../pages/homePage";
 import ProjectNavigator from "./projectNav";
 import { Feather, AntDesign } from "@expo/vector-icons";
 import AddTaskButton from "../components/addTaskButton";
+import HeaderContainer from "../containers/headerContainer";
+
+const ScreenA = createStackNavigator(
+  { HomePage },
+  {
+    defaultNavigationOptions: {
+      headerMode: "screen",
+      headerStyle: {
+        height: 105
+      },
+      header: ({ scene, previous, navigation }) => {
+        return <HeaderContainer />;
+      }
+    }
+  }
+  /* other routes here */
+);
 
 const AppNavigator = createBottomTabNavigator(
   {
     Home: {
-      screen: HomePage
+      screen: ScreenA
     },
     AddButton: {
       screen: () => null,

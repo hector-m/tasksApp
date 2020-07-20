@@ -1,3 +1,4 @@
+import { Asset } from "expo-asset";
 import { types } from "./actions";
 import {
   RequestStates,
@@ -6,8 +7,9 @@ import {
 } from "../constants/RequestStates";
 
 const initialState = {
-  name: "Hector",
-  icon: require("../assets/profile.jpg"),
+  hasAsyncStorageSet: false,
+  name: "",
+  icon: Asset.fromModule(require("../assets/defaultIcon.jpg")).uri,
   allTasks: [],
   allProjects: [],
   projectTasks: { days: { hasReminders: false, tasks: [] }, title: "" },
@@ -33,6 +35,17 @@ export default function reducer(state = initialState, action) {
       return { ...state, name: action.payload };
     case types.SET_ICON:
       return { ...state, icon: action.payload };
+    case types.SAVE_TO_ASYNC_STORAGE:
+      return { ...state, hasAsyncStorageSet: true };
+    case types.GET_ASYNC_STORAGE:
+      if (action.payload.icon) {
+        return {
+          ...state,
+          name: action.payload.name,
+          icon: action.payload.icon
+        };
+      }
+      return { ...state };
     case types.ENTER_ADD_TASK:
       return { ...state, isPanelOpen: true, isSettingNewTask: true };
     case types.EXIT_ADD_TASK:

@@ -6,6 +6,8 @@ import keyMirror from "keymirror";
 export const types = keyMirror({
   SET_NAME: null,
   SET_ICON: null,
+  SAVE_TO_ASYNC_STORAGE: null,
+  GET_ASYNC_STORAGE: null,
   ENTER_ADD_TASK: null,
   EXIT_ADD_TASK: null,
   CREATE_NEW_TASK: null,
@@ -46,8 +48,14 @@ const requestActions = type => ({
 
 const updateAction = type => payload => ({ type, payload });
 
-export const setName = updateAction(types.SET_NAME);
-export const setIcon = updateAction(types.SET_ICON);
+export const onNameChanged = updateAction(types.SET_NAME);
+export const onIconChanged = updateAction(types.SET_ICON);
+export const onSaveNameAndIconToStorage = updateAction(
+  types.SAVE_TO_ASYNC_STORAGE
+);
+export const onGetNameAndIconFromStorage = updateAction(
+  types.GET_ASYNC_STORAGE
+);
 export const enterAddTask = updateAction(types.ENTER_ADD_TASK);
 export const exitAddTask = updateAction(types.EXIT_ADD_TASK);
 export const swipedAllReminders = updateAction(types.SWIPED_ALL_REMINDERS);

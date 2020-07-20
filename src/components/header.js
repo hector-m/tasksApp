@@ -28,12 +28,12 @@ export default class Header extends React.Component {
           }}
         >
           <Text style={{ fontSize: 17, color: "white" }}>
-            Hello {userName}!
+            {userName ? "Hello " + userName + "!" : "Hello!"}
           </Text>
           {this.getTodaysReminders()}
         </View>
         <Image
-          source={icon}
+          source={{ uri: icon }}
           style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
         />
       </View>

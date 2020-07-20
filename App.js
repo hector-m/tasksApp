@@ -6,7 +6,6 @@ import * as Permissions from "expo-permissions";
 import reducer from "./src/redux/reducers";
 import InitialNavigator from "./src/navigators/initialNav";
 import AddTaskSliderContainer from "./src/containers/AddTaskSliderContainer";
-import HeaderContainer from "./src/containers/headerContainer";
 
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -22,7 +21,6 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <View style={{ flex: 1 }}>
-          <HeaderContainer />
           <InitialNavigator />
           <AddTaskSliderContainer />
         </View>
