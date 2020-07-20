@@ -83,20 +83,13 @@ class SetUpScreen extends React.Component {
 
   onButtonPress = async () => {
     const { name, icon, onSaveNameAndIconToStorage } = this.props;
-    console.log("start");
     try {
-      console.log("before");
       t = await AsyncStorage.setItem("@Name", name);
       i = await AsyncStorage.setItem("@Icon", icon);
-      console.log("after");
-      console.log(t, i);
       onSaveNameAndIconToStorage();
-      console.log("then");
     } catch (e) {
       console.log(e);
-      console.log("error");
     }
-    console.log("last");
   };
 
   renderButton() {
@@ -145,8 +138,8 @@ class SetUpScreen extends React.Component {
       if (!result.cancelled) {
         onIconChanged(result.uri);
       }
-    } catch (E) {
-      console.log(E);
+    } catch (e) {
+      console.log(e);
     }
   };
 
