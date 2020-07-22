@@ -38,10 +38,8 @@ class AddTaskButton extends React.Component {
       requestAllProjects
     } = this.props;
     if (isPanelOpen) {
-      console.log("close");
       closeWindow();
     } else {
-      console.log("open");
       requestAllProjects();
       openWindow();
     }

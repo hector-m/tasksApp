@@ -26,6 +26,7 @@ export default class NotificationsClient {
     return Notifications.scheduleNotificationAsync({
       identifier: String(id),
       content: {
+        sound: "default",
         title: titleText
       },
       trigger
