@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, Image } from "react-native";
+import { View } from "react-native";
+import * as SplashScreens from "expo-splash-screen";
 import {
   onGetNameAndIconFromStorage,
   requestAllTasks,
@@ -43,31 +44,11 @@ class SplashScreen extends React.Component {
     } else {
       this.props.navigation.navigate("SetUp");
     }
+    await SplashScreens.hideAsync();
   }
 
   render() {
-    return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#F9FCFF"
-        }}
-      >
-        <Image source={require("../assets/NoteBook_full.png")} />
-        <Text
-          style={{
-            fontSize: 22,
-            color: "#554E8F",
-            fontWeight: "600",
-            marginBottom: 10
-          }}
-        >
-          Reminders made simple
-        </Text>
-      </View>
-    );
+    return <View></View>;
   }
 }
 

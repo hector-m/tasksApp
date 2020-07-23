@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import * as Permissions from "expo-permissions";
+import * as SplashScreen from "expo-splash-screen";
 import reducer from "./src/redux/reducers";
 import InitialNavigator from "./src/navigators/initialNav";
 import AddTaskSliderContainer from "./src/containers/AddTaskSliderContainer";
@@ -16,6 +17,11 @@ class App extends React.Component {
   async componentDidMount() {
     // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    try {
+      await SplashScreen.preventAutoHideAsync();
+    } catch (e) {
+      console.log(e);
+    }
   }
   render() {
     return (
