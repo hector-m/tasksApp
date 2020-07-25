@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "taskApp",
-    "slug": "tasksApp",
+    "name": "Tasks",
+    "slug": "Tasks",
     "privacy": "public",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
@@ -17,6 +17,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier": "com.m.hector.Tasks",
       "supportsTablet": true
     }
   }
