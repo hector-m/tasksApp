@@ -68,7 +68,7 @@ class HeaderContainer extends React.Component {
           style={{
             display: "flex",
             alignItems: "center",
-            paddingTop: 55
+            paddingTop: 39
           }}
         >
           {this.getBackgroundBubbles()}
