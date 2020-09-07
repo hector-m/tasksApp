@@ -67,6 +67,16 @@ export const onProjectTitleChanged = updateAction(types.PROJECT_TITLE_CHANGED);
 export const editTask = updateAction(types.EDIT_TASK);
 export const onOpenProjectPage = updateAction(types.OPEN_PROJECT_PAGE);
 
+const GetAllProjects = requestActions(types.REQUEST_ALL_PROJECTS);
+function updateProjects(dispatch) {
+  let dispatchSuccess = data => dispatch(GetAllProjects.success(data));
+  DataHandler.loadedProjects(dispatchSuccess);
+}
+
+export const requestAllProjects = () => dispatch => {
+  updateProjects(dispatch);
+};
+
 function updateTasks(dispatch, state) {
   if (state.projectPageId != null) {
     state.projectPageId == 0
@@ -75,6 +85,7 @@ function updateTasks(dispatch, state) {
   }
   let dispatchSuccess = data => dispatch(GetAllTasks.success(data));
   DataHandler.loadedReminders(dispatchSuccess);
+  updateProjects(dispatch);
 }
 const GetAllTasks = requestActions(types.REQUEST_ALL_TASKS);
 export const requestAllTasks = () => (dispatch, getState) => {
@@ -98,12 +109,6 @@ function updateCompletedTasks(title, dispatch) {
 export const requestCompletedTasks = title => dispatch => {
   dispatch(onOpenProjectPage(0));
   updateCompletedTasks(title, dispatch);
-};
-
-const GetAllProjects = requestActions(types.REQUEST_ALL_PROJECTS);
-export const requestAllProjects = () => dispatch => {
-  let dispatchSuccess = data => dispatch(GetAllProjects.success(data));
-  DataHandler.loadedProjects(dispatchSuccess);
 };
 
 const CreateNewTask = requestActions(types.CREATE_NEW_TASK);

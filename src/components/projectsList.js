@@ -4,7 +4,7 @@ import style from "../style";
 import { FlatList } from "react-native-gesture-handler";
 import Project from "./project";
 
-export default class TasksList extends React.Component {
+export default class ProjectsList extends React.Component {
   constructor(props) {
     super(props);
   }
