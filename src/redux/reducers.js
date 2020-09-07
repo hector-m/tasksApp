@@ -132,7 +132,9 @@ export default function reducer(state = initialState, action) {
         taskEditingId: action.payload.id,
         newProjectTitle: action.payload.title,
         newProjectType: action.payload.project,
-        newProjectDate: new Date(action.payload.start),
+        newProjectDate: action.payload.start
+          ? new Date(action.payload.start)
+          : null,
         isProjectReminder: action.payload.reminder
       };
     case types.OPEN_PROJECT_PAGE:

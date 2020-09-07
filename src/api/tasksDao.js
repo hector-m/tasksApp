@@ -46,7 +46,7 @@ export const updateTask = (
         `update tasks set title=?, start_time=?, end_date=?, project=?, reminder=? where id = ?`,
         [
           title,
-          start_time.valueOf(),
+          start_time ? start_time.valueOf() : null,
           end_date ? end_date.valueOf() : null,
           project,
           reminder,
