@@ -87,6 +87,9 @@ export default class DataHandler {
       ) {
         hasReminders = true;
       }
+      if (!moment(task.start_time).isValid()) {
+        time = "";
+      }
       responseMap.has(time)
         ? responseMap.get(time).push(task)
         : responseMap.set(time, [task]);

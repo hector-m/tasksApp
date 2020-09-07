@@ -114,9 +114,11 @@ export default class Task extends React.Component {
               { marginHorizontal: 10 }
             ]}
           />
-          <Text style={{ color: "#C6C6C8", marginRight: 14 }}>
-            {moment(this.props.start).format("h:mm")}
-          </Text>
+          {this.props.start && (
+            <Text style={{ color: "#C6C6C8", marginRight: 14 }}>
+              {moment(this.props.start).format("h:mm")}
+            </Text>
+          )}
           <Text
             style={this.props.complete ? styles.text_selected : styles.text}
           >
