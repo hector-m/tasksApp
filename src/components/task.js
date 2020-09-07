@@ -124,14 +124,16 @@ export default class Task extends React.Component {
           >
             {this.props.title}
           </Text>
-          <Icon
-            name="bell"
-            type="font-awesome"
-            color={this.props.reminder ? "#FFDC00" : "#D9D9D9"}
-            iconStyle={{ marginHorizontal: 10 }}
-            size={18}
-            onPress={this.handleReminder}
-          />
+          {this.props.start && (
+            <Icon
+              name="bell"
+              type="font-awesome"
+              color={this.props.reminder ? "#FFDC00" : "#D9D9D9"}
+              iconStyle={{ marginHorizontal: 10 }}
+              size={18}
+              onPress={this.handleReminder}
+            />
+          )}
         </View>
       </View>
     );
