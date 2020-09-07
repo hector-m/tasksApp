@@ -29,7 +29,7 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-  console.log(action.type, "Payload: ", action.payload);
+  // console.log(action.type, "Payload: ", action.payload);
   switch (action.type) {
     case types.SET_NAME:
       return { ...state, name: action.payload };
