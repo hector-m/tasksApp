@@ -1,5 +1,6 @@
 import React from "react";
 import { createAppContainer } from "react-navigation";
+import { View, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
 import HomePage from "../pages/homePage";
@@ -17,7 +18,7 @@ const ScreenA = createStackNavigator(
         height: 105
       },
       header: ({ scene, previous, navigation }) => {
-        return <HeaderContainer />;
+        return <HeaderContainer navigation={navigation} />;
       }
     }
   }
@@ -34,7 +35,11 @@ const AppNavigator = createBottomTabNavigator(
       showLabel: false,
       navigationOptions: () => ({
         title: "",
-        tabBarIcon: <AddTaskButton />,
+        tabBarIcon: (
+          <View style={styles.button}>
+            <AddTaskButton />
+          </View>
+        ),
         tabBarOnPress: () => {}
       })
     },
@@ -59,5 +64,17 @@ const AppNavigator = createBottomTabNavigator(
     }
   }
 );
+
+const styles = StyleSheet.create({
+  button: {
+    shadowColor: "#F456C3",
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.47,
+    position: "absolute",
+    left: "50%",
+    marginLeft: -33,
+    top: -33
+  }
+});
 
 export default createAppContainer(AppNavigator);

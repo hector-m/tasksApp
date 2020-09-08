@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -7,7 +7,7 @@ export default class Header extends React.Component {
   }
 
   render() {
-    let { userName, icon } = this.props;
+    let { userName, icon, navigation } = this.props;
     return (
       <View
         style={{
@@ -32,10 +32,12 @@ export default class Header extends React.Component {
           </Text>
           {this.getTodaysReminders()}
         </View>
-        <Image
-          source={{ uri: icon }}
-          style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate("SetUp")}>
+          <Image
+            source={{ uri: icon }}
+            style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
+          />
+        </TouchableOpacity>
       </View>
     );
   }

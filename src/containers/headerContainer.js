@@ -58,7 +58,7 @@ class HeaderContainer extends React.Component {
   }
 
   render() {
-    const { name, icon, todaysReminders } = this.props;
+    const { name, icon, todaysReminders, navigation } = this.props;
     return (
       <View style={{ width: "100%" }}>
         <LinearGradient
@@ -76,6 +76,7 @@ class HeaderContainer extends React.Component {
             userName={name}
             icon={icon}
             todaysReminderCount={todaysReminders.length}
+            navigation={navigation}
           />
           {this.getRemindersHeader()}
         </LinearGradient>

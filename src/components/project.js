@@ -21,9 +21,12 @@ export default class Project extends React.Component {
             size={35}
           />
           <Text style={styles.text}>{title}</Text>
-          <Text style={styles.subtext}>
-            {taskCount > 0 ? taskCount : "No"} Task{taskCount == 1 ? null : "s"}
-          </Text>
+          {taskCount != null && (
+            <Text style={styles.subtext}>
+              {taskCount > 0 ? taskCount : "No"} Task
+              {taskCount == 1 ? null : "s"}
+            </Text>
+          )}
         </View>
       </TouchableOpacity>
     );
