@@ -57,8 +57,19 @@ class HeaderContainer extends React.Component {
     return null;
   }
 
+  onProfilePressed = () => {
+    const { navigation } = this.props;
+
+    const { routeName } = navigation.state;
+    if (routeName === "SetUp") {
+      navigation.navigate("App");
+    } else {
+      navigation.navigate("SetUp");
+    }
+  };
+
   render() {
-    const { name, icon, todaysReminders, navigation } = this.props;
+    const { name, icon, todaysReminders } = this.props;
     return (
       <View style={{ width: "100%" }}>
         <LinearGradient
@@ -76,7 +87,7 @@ class HeaderContainer extends React.Component {
             userName={name}
             icon={icon}
             todaysReminderCount={todaysReminders.length}
-            navigation={navigation}
+            onProfilePressed={this.onProfilePressed}
           />
           {this.getRemindersHeader()}
         </LinearGradient>

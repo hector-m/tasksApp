@@ -7,7 +7,7 @@ export default class Header extends React.Component {
   }
 
   render() {
-    let { userName, icon, navigation } = this.props;
+    let { userName, icon, onProfilePressed } = this.props;
     return (
       <View
         style={{
@@ -32,7 +32,7 @@ export default class Header extends React.Component {
           </Text>
           {this.getTodaysReminders()}
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate("SetUp")}>
+        <TouchableOpacity onPress={onProfilePressed}>
           <Image
             source={{ uri: icon }}
             style={{ width: 40, height: 40, borderRadius: 40 / 2 }}

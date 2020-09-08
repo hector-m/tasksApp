@@ -144,9 +144,10 @@ class SetUpScreen extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
     return (
       <>
-        <HeaderContainer />
+        <HeaderContainer navigation={navigation} />
         <View
           style={{
             flex: 1,

@@ -20,7 +20,7 @@ const ProjectNavigator = createStackNavigator(
         height: 105
       },
       header: ({ scene, previous, navigation }) => {
-        return <HeaderContainer />;
+        return <HeaderContainer navigation={navigation} />;
       }
     }
   }
